@@ -7004,7 +7004,6 @@
     "platform": {
         "php": "^7.2.5",
         "ext-fileinfo": "*",
-        "ext-http": "*",
         "ext-json": "*",
         "ext-pdo": "*"
     },
