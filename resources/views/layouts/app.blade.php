@@ -20,6 +20,16 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+
+<div><a href="/home">home</a></div>
+<div><a href=/myGladiators class="btn">мои гладиаторы</a></div>
+<div> <a href=/mySlaves class="btn">мои рабыни</a></div>
+<div><a href=/gladiator class="btn">площадка гладиаторов</a></div>
+<div><a href=/slave class="btn">площадка рабынь</a></div>
+<div><a href=/profile class="btn">profile</a></div>
+<div><a href=/logout class="btn"></a></div>
+
+
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">

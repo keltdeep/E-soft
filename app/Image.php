@@ -4,7 +4,7 @@
 namespace App;
 
 use finfo;
-use http\Exception\RuntimeException;
+use Psy\Exception\RuntimeException;
 
 class Image
 {

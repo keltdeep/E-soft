@@ -7,6 +7,9 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
+
+use Illuminate\Support\Facades\Session;
+
 define('LARAVEL_START', microtime(true));
 
 
@@ -60,3 +63,4 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
+

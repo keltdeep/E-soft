@@ -12,7 +12,7 @@
                         @csrf
 
                         @foreach ($slaves as $key => $value)
-
+                            <img src="{{$value->image}}" class="card-img-top" alt="image">
                             <form method="GET" action="buySlave/{{$value->id}}">
 
                                 <label for="id"></label>
@@ -20,13 +20,14 @@
                             <div>name={{$value->name}}</div>
                             <div>agility={{$value->agility}}</div>
                             <div>intelligence={{$value->intelligence}}</div>
-                            <div>cost={{$value->cost}}</div>
-                            <div>rateComfort={{$value->rateComfort}}</div>
-                            <div>dailyExpenses={{$value->dailyExpenses}}</div>
+                            <div>cost={{round($value->cost, 2)}}</div>
+                            <div>rateComfort={{round($value->rateComfort, 2)}}</div>
+                            <div>dailyExpenses={{round($value->dailyExpenses, 2)}}</div>
+
                                 <button type="submit">buy</button>
                             </form>
                         @endforeach
-                        git stat
+
 
                             <div>{{$slaves->links()}}</div>
 

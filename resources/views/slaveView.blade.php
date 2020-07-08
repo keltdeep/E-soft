@@ -12,7 +12,7 @@
 
                         @csrf
 
-
+                        <img src="{{$slave['image']}}" class="card-img-top" alt="image">
                         <div>{{$slave['name']}}</div>
 
 
@@ -27,11 +27,11 @@
                         </div>
 
 
-                        <div>cost={{$slave['cost']}}</div>
+                        <div>cost={{round($slave['cost'], 2)}}</div>
 
-                        <div>rateComfort={{$slave['rateComfort']}}</div>
+                        <div>rateComfort={{round($slave['rateComfort'], 2)}}</div>
 
-                        <div>dailyExpenses={{$slave['dailyExpenses']}}</div>
+                        <div>dailyExpenses={{round($slave['dailyExpenses'], 2)}}</div>
 
                         <div>
                             <button type="submit">train</button>

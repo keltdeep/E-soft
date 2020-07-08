@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Slave extends Model
 {
@@ -12,14 +13,9 @@ class Slave extends Model
     protected $fillable = [
         'name', 'agility', 'intelligence', 'cost', 'rateComfort', 'dailyExpenses', 'image', 'master'
     ];
-//    public $name, $agility, $intelligence, $comfortRate, $cost, $master;
-//    public function __construct($name, $agility, $intelligence, $comfortRate, $cost)
-//    {
-//        $this->name = $name;
-//        $this->intelligence = $intelligence;
-//        $this->agility = $agility;
-//        $this->comfortRate = $comfortRate;
-//        $this->cost = $cost;
-//
-//    }
+    public static function getSlave($id)
+    {
+        return DB::table('slaves')
+            ->where('id', $id);
+    }
 }

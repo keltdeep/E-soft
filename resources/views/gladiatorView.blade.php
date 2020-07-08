@@ -12,30 +12,17 @@
 
                                                 @csrf
 
-
-                            <div>{{$gladiator['name']}}</div>
-
-                            <div>strength={{$gladiator['strength']}}
-
-                            </div>
-
-
-                            <div>agility={{$gladiator['agility']}}
-
-                            </div>
-
-
-                            <div>heals={{$gladiator['heals']}}
-
-                            </div>
-
-
-                            <div>cost={{$gladiator['cost']}}</div>
-
-                            <div>rate={{$gladiator['rate']}}</div>
+                        <img src="{{$gladiator['image']}}" class="card-img-top" alt="image">
+                        <div>{{$gladiator['name']}}</div>
+                        <div>strength={{$gladiator['strength']}}
+                        </div>
+                        <div>agility={{$gladiator['agility']}}
+                        </div>
+                        <div>heals={{$gladiator['heals']}}
+                        </div>
+                        <div>cost={{round($gladiator['cost'], 2)}}</div>
+                        <div>rate={{round($gladiator['rate'], 2)}}</div>
                         <a href={{$gladiator['id']}}/edit class="btn">edit</a>
-
-
 
 
                     </div>

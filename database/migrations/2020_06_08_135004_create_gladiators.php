@@ -25,7 +25,9 @@ class CreateGladiators extends Migration
             $table->float('rate')->notnull();
             $table->string('image')->nullable();
             $table->string('master')->nullable();
-            $table->timestamps();
+            $table->string('seller')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
 
     }

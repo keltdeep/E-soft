@@ -31,11 +31,6 @@ class HomeController extends Controller
         $value = Session::all();
         $id = $value['login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d'];
         $user = User::query()->findOrFail($id);
-//        var_dump($user);
-//        die();
-////        $users = User::all();
-//
-//        return json_encode($users);
 
         return view('home', compact('user'));
     }

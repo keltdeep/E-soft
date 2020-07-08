@@ -12,6 +12,17 @@
 
                     @csrf
 
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div><br />
+                    @endif
+
+                    <img src="{{$slave['image']}}" class="card-img-top" alt="image">
                     <form method="POST" action="/slave/{{$slave['id']}}" enctype='multipart/form-data'>
 
                                                     {{method_field('PATCH')}}
@@ -29,11 +40,15 @@
                         </div>
 
 
-                        <div>cost={{$slave['cost']}}</div>
 
-                        <div>rateComfort={{$slave['rateComfort']}}</div>
+                        <div>costAgility={{round($slave['costAgility'], 2)}}</div>
+                        <input id="costAgility" type="hidden" name="costAgility" class="form-control" value="{{round($slave['costAgility'], 2)}}">
+                        <div>costHeals={{round($slave['costIntelligence'], 2)}}</div>
+                        <input id="costIntelligence" type="hidden" name="costIntelligence" class="form-control" value="{{round($slave['costIntelligence'], 2)}}">
 
-                        <div>dailyExpenses={{$slave['dailyExpenses']}}</div>
+                        <div>rateComfort={{round($slave['rateComfort'], 2)}}</div>
+
+                        <div>dailyExpenses={{round($slave['dailyExpenses'], 2)}}</div>
 {{--                        <div class="custom-file">--}}
 {{--                            <input type="file"--}}
 {{--                                   class="custom-file-input"--}}

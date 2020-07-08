@@ -23,8 +23,9 @@ class CreateSlaves extends Migration
             $table->float('dailyExpenses')->notnull();
             $table->string('image')->nullable();
             $table->string('master')->nullable();
-
-            $table->timestamps();
+            $table->string('seller')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

@@ -13,6 +13,7 @@
 
 
                     @foreach ($gladiators as $key => $value)
+                        <img src="{{$value->image}}" class="card-img-top" alt="image">
                         <form method="GET" action="buyGladiator/{{$value->id}}">
 
                             <label for="id"></label>
@@ -21,16 +22,15 @@
                         <div>strength={{$value->strength}}</div>
                         <div>agility={{$value->agility}}</div>
                         <div>heals={{$value->heals}}</div>
-                        <div>cost={{$value->cost}}</div>
-                        <div>rate={{$value->rate}}</div>
+                        <div>cost={{round($value->cost, 2)}}</div>
+                        <div>rate={{round($value->rate, 2)}}</div>
                         <div>
-                        @isset($value->master))
-                            {{$value->master}}
-                            @endisset
+
 
                             <button type="submit">buy</button>
                         </div>
                         </form>
+
                     @endforeach
 
                     {{$gladiators->links()}}

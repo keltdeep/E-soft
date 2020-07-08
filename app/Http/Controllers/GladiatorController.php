@@ -10,123 +10,87 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use App\Image;
+use Illuminate\Validation\ValidationException;
 
-//use function MongoDB\BSON\toJSON;
 
 class GladiatorController extends Controller
 
 {
+
     protected $gladiators;
-//    public function checkAttributes($attributes, $gladiator) {
-//        if($attributes !== "") {
-//            $attributes = $attributes + $gladiator;
-//        }
-//    }
+
     public function __construct(Gladiator $gladiators)
     {
         $this->gladiators = $gladiators;
     }
 
-    // public function getGladiator() {
+
+    public function gladiatorList()
+    {
+
+        $value = Session::all();
+        $idSession = $value['login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d'];
+
+        $gladiators = DB::table('gladiators')
+            ->where('master', '=', $idSession)
+            ->simplePaginate(3);
 
 
-    // }
+        return View::make('myGladiators', ['gladiators' => $gladiators]);
+    }
+
     public function edit($id)
     {
 
 
+        if ($_SERVER["REQUEST_URI"] === "/gladiator/$id/edit") {
 
-//        var_dump($_SERVER);
-//        die();
-        if($_SERVER["REQUEST_URI"] === "/gladiator/$id/edit") {
-            $gladiator =
-                DB::table('gladiators')
-                    ->where('id', $id)
-                    ->first();
+            $gladiator = Gladiator::getGladiator($id)->first();
+
             $gladiator = (array)$gladiator;
 
+            $k = 1.1;
 
-//            $gladiator = Gladiator::query()->findOrFail($id);
+            $gladiator['costStrength'] = $gladiator['cost'] / 10 * 0.5;
+            $gladiator['costAgility'] = $gladiator['cost'] / 10 * 0.3;
+            $gladiator['costHeals'] = $gladiator['cost'] / 10 * 0.2;
+            $gladiator['thePossibilityOfDeath'] = 20 / ($gladiator['strength'] + $gladiator['agility'] + $gladiator['heals']) * $k;
 
             return view('gladiatorEdit', compact('gladiator'));
         }
-//
-////            $gladiator = DB::select('select * from gladiators where id = ?', [$id]);
-//        $gladiator =
-//            DB::table('gladiators')
-//                ->where('id', $id)
-//                ->first();
-//
-//        $data = array();
-//
-//        if ($_GET['strength'] !== "") {
-//            $data['strength'] = $_GET['strength'] + $gladiator->strength;
-//        }
-//            else if ($_GET['strength'] == "") {
-//                $data['strength'] = $gladiator->strength;
-//        }
-//
-//        if ($_GET['agility'] !== "") {
-//            $data['agility'] = $_GET['agility'] + $gladiator->agility;
-//        }
-//            else if ($_GET['agility'] == "") {
-//                $data['agility'] = $gladiator->strength;
-//        }
-//
-//        if ($_GET['heals'] !== "") {
-//            $data['heals'] = $_GET['heals'] + $gladiator->heals;
-//        }
-//            else if ($_GET['heals'] == "") {
-//                $data['heals'] = $gladiator->heals;
-//        }
-//
-//
-//        $k = 1.1;
-//
-//        $data['cost'] = ($data['strength'] * 0.5 + $data['agility'] * 0.3 + $data['heals'] * 0.2) * $k * 1.5;
-////        var_dump($data['cost']);
-//        $data['rate'] = $data['cost'] / 7;
-//
-//
-//        DB::table('gladiators')->where('id', $id)->update($data);
-//
-//        $gladiator =
-//            DB::table('gladiators')
-//                ->where('id', $id)
-//                ->first();
-//        $gladiator = (array)$gladiator;
-//
-//
-//
-//        return redirect()->route('gladiator.show', [$id]);
+        return null;
     }
 
     public function create()
     {
+        $user = USER::currentUser();
 
+        if ($user->administration === true) {
+            return view('createGladiator');
+        }
+        return null;
 
-        return view('createGladiator');
 
     }
 
     public function index()
     {
 
-        $gladiators = DB::table('gladiators')->simplePaginate(3);
-        return View::make('gladiators', ['gladiators' => $gladiators] );
-//
+        $gladiators = DB::table('gladiators')
+            ->where('master', '=', NULL)
+            ->orWhereNotNull('seller')
+            ->simplePaginate(3);
+        return View::make('gladiators', ['gladiators' => $gladiators]);
 
     }
 
     public function store()
     {
+//        Создание Гладиаторов
 //        $serverName = $_SERVER["HTTP_HOST"];
-//        $documentRoot = $_SERVER["DOCUMENT_ROOT"];
-//        $uploadFolder = $documentRoot.'/uploads';
-        $serverName = $_SERVER["HTTP_HOST"];
         $documentRoot = $_SERVER["DOCUMENT_ROOT"];
         $uploadFolder = $documentRoot . '/uploads';
-//        $gladiator['id'] = filter_var($_POST['id']);
+
         $gladiator['name'] = filter_var($_POST['name']);
         $gladiator['strength'] = filter_var($_POST['strength'], FILTER_VALIDATE_INT);
         $gladiator['agility'] = filter_var($_POST['agility'], FILTER_VALIDATE_INT);
@@ -139,8 +103,8 @@ class GladiatorController extends Controller
             $file_path = Image::upload_image($_FILES["image"], $folder);
             $file_path_exploded = explode("/", $file_path);
             $filename = $file_path_exploded[count($file_path_exploded) - 1];
-            $file_url = "//$serverName/uploads/" . $filename;
-            $gladiator["image"] = $file_url;
+//            $file_url = "//$serverName/uploads/" . $filename;
+            $gladiator["image"] = "/uploads/" . $filename;;
         }
 
         $k = 1.1;
@@ -148,43 +112,26 @@ class GladiatorController extends Controller
         $gladiator['cost'] = ($gladiator['strength'] * 0.5 + $gladiator['agility'] * 0.3 + $gladiator['heals'] * 0.2) * $k * 1.5;
         $gladiator['rate'] = $gladiator['cost'] / 7;
 
+        DB::table('gladiators')
+            ->insert($gladiator);
 
-        DB::table('gladiators')->insert($gladiator);
         $gladiatorGet = Gladiator::all();
+
         $gladiatorsArray = $gladiatorGet->toArray();
-//        var_dump($gladiatorsArray['0']);
-//        die();
         foreach ($gladiatorsArray as $key => $value) {
-            if($value['name'] == $gladiator['name']){
-//                var_dump($value['name'], $gladiator['name']);
-//                return redirect()->route('gladiator.show', [$gladiatorsArray['0']['id']]);
+            if ($value['name'] == $gladiator['name']) {
                 $id = intval($value['id']);
-//var_dump($value);
-//die();
                 view('gladiatorView', ['gladiator' => $value]);
                 return redirect()->route('gladiator.show', [$id]);
-
             }
         }
 
-//        $gladiator = (array)$gladiator;
-//        var_dump($gladiatorsArray['0']['name']);
-//        die();
-
-//        DB::insert('insert into gladiators (name, strength, agility, heals, cost, rate) values (?, ?, ?, ?, ?, ?)', [$gladiator['*']]);
-
-
-//        header("Location: /gladiator/$name");
-
-//       return GladiatorController::show($gladiator);
-//        return View::make('gladiatorView', $gladiatorArray);
-//        return redirect()->route('gladiator.show', [$id]);
-
-//        return view('gladiatorView', ['gladiator' => $gladiator]);
+        return null;
     }
 
     public function show($id)
     {
+//        $gladiator = Gladiator::getGladiator($id)-first();
 
         $gladiator = Gladiator::query()->findOrFail($id);
 
@@ -192,123 +139,140 @@ class GladiatorController extends Controller
     }
 
 
-
-    public function update($id)
+    public function  update(Request $request, $id)
     {
-//        $serverName = $_SERVER["HTTP_HOST"];
-//        $documentRoot = $_SERVER["DOCUMENT_ROOT"];
-//        $uploadFolder = $documentRoot . '/uploads';
-//        var_dump($_FILES);
-//            die();
-//        $gladiator['id'] = filter_var($_POST['id']);
+
+        $request->validate([
+            'strength' => 'numeric|between:0,1',
+            'agility' => 'numeric|between:0,1',
+            'heals' => 'numeric|between:0,1',
+        ]);
 
 
-//
+        if ($_SERVER["REQUEST_URI"] === "/gladiator/$id/edit") {
 
+            $gladiator = Gladiator::getGladiator($id)->first();
 
-        if($_SERVER["REQUEST_URI"] === "/gladiator/$id/edit") {
-            $gladiator =
-                DB::table('gladiators')
-                    ->where('id', $id)
-                    ->first();
             $gladiator = (array)$gladiator;
-
-
-//            $gladiator = Gladiator::query()->findOrFail($id);
 
             return view('gladiatorEdit', compact('gladiator'));
         }
 
+        $gladiator = Gladiator::getGladiator($id)->first();
 
-
-//            $gladiator = DB::select('select * from gladiators where id = ?', [$id]);
-        $gladiator =
-            DB::table('gladiators')
-                ->where('id', $id)
-                ->first();
 
         $data = array();
 
-        if ($_POST['strength'] !== "") {
+        $user = User::currentUser();
+
+
+        if ($_POST['strength'] !== "" ) {
+
             $data['strength'] = $_POST['strength'] + $gladiator->strength;
-        }
-        else if ($_POST['strength'] == "") {
+
+
+
+            $user->money = $user->money - $_POST['costStrength'];
+            $user = (array)$user;
+
+            User::getUser($user['id'])->update($user);
+
+
+        } else if ($_POST['strength'] == "") {
             $data['strength'] = $gladiator->strength;
+
         }
 
         if ($_POST['agility'] !== "") {
             $data['agility'] = $_POST['agility'] + $gladiator->agility;
-        }
-        else if ($_POST['agility'] == "") {
+
+            $user = User::currentUser();
+
+            $user->money = $user->money - $_POST['costAgility'];
+            $user = (array)$user;
+
+            User::getUser($user['id'])->update($user);
+
+
+        } else if ($_POST['agility'] == "") {
             $data['agility'] = $gladiator->strength;
         }
 
+
         if ($_POST['heals'] !== "") {
             $data['heals'] = $_POST['heals'] + $gladiator->heals;
-        }
-        else if ($_POST['heals'] == "") {
+
+            $user = User::currentUser();
+
+            $user->money = $user->money - $_POST['costHeals'];
+            $user = (array)$user;
+
+            User::getUser($user['id'])->update($user);
+
+        } else if ($_POST['heals'] == "") {
             $data['heals'] = $gladiator->heals;
         }
-
-//       добавление фотки
-//        if (!$_FILES["image"]["error"] == UPLOAD_ERR_NO_FILE) {
-//
-//            $folder = $uploadFolder;
-//            $file_path = Image::upload_image($_FILES["image"], $folder);
-//            $file_path_exploded = explode("/", $file_path);
-//            $filename = $file_path_exploded[count($file_path_exploded) - 1];
-//            $file_url = "//$serverName/uploads/" . $filename;
-//            $data["image"] = $file_url;
-//        }
-
 
         $k = 1.1;
 
         $data['cost'] = ($data['strength'] * 0.5 + $data['agility'] * 0.3 + $data['heals'] * 0.2) * $k * 1.5;
-//        var_dump($data['cost']);
         $data['rate'] = $data['cost'] / 7;
+//        $data['thePossibilityOfDeath'];
 
-
-        DB::table('gladiators')->where('id', $id)->update($data);
-
-//        $gladiator =
-//            DB::table('gladiators')
-//                ->where('id', $id)
-//                ->first();
-//        $gladiator = (array)$gladiator;
-
-
+        Gladiator::getGladiator($id)->update($data);
 
         return redirect()->route('gladiator.show', [$id]);
-//        $gladiator['cost'] = $gladiator['strength'] * $gladiator['agility'] * $gladiator['heals'];
-//        $gladiator['rate'] = $gladiator['cost'] * 10;
-
-
-        }
-        public function buy($id) {
-            $value = Session::all();
-            $idSession = $value['login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d'];
-            $data['master'] = $idSession;
-            DB::table('gladiators')->where('id', $id)->update($data);
-
-            $user =
-                DB::table('users')
-                    ->where('id', $idSession)
-                    ->first();
-
-            $gladiator =
-                DB::table('gladiators')
-                    ->where('id', $id)
-                    ->first();
-
-            $dataChange['money'] = $user->money - $gladiator->cost;
-
-            DB::table('users')->where('id', $idSession)->update($dataChange);
-//            var_dump($gladiator, $user);
-//            die();
-        }
 
     }
+
+    public function buy($id)
+    {
+        $value = Session::all();
+        $idSession = $value['login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d'];
+        $data['master'] = $idSession;
+
+        Gladiator::getGladiator($id)->update($data);
+
+        $user = User::getUser($idSession)->first();
+
+        $gladiator = Gladiator::getGladiator($id)->first();
+
+        $dataChange['money'] = $user->money - $gladiator->cost;
+
+        User::getUser($idSession)->update($dataChange);
+
+        if ($gladiator->seller !== null) {
+
+            $user = User::getUser($gladiator->seller)->first();
+
+            $changeMoneySeller['money'] = $user->money + $gladiator->cost;
+
+            User::getUser($gladiator->seller)->update($changeMoneySeller);
+
+            $changeGladiator['seller'] = null;
+
+            Gladiator::getGladiator($id)->update($changeGladiator);
+
+        }
+
+        return redirect()->route('gladiator.show', [$id]);
+    }
+
+
+    public function sell($id)
+    {
+
+        $user = User::currentUser();
+
+        $data['seller'] = $user->id;
+
+        Gladiator::getGladiator($id)->update($data);
+
+        return redirect()->route('gladiator.index');
+    }
+
+
+}
 
 
 

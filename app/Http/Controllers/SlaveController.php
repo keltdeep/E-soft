@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Image;
 use App\Slave;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -18,102 +19,69 @@ class SlaveController extends Controller
         $this->slaves = $slaves;
     }
 
+    public function slaveList()
+    {
+
+        $value = Session::all();
+        $idSession = $value['login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d'];
+
+        $slaves = DB::table('slaves')
+            ->where('master', '=', $idSession)
+            ->simplePaginate(3);
+        return View::make('mySlaves', ['slaves' => $slaves]);
+    }
+
     public function edit($id)
     {
-//
-////        var_dump($_SERVER);
-////        die();
+
         if ($_SERVER["REQUEST_URI"] === "/slave/$id/edit") {
-            $slave =
-                DB::table('slaves')
-                    ->where('id', $id)
-                    ->first();
+
+            $slave = Slave::getSlave($id)->first();
+
             $slave = (array)$slave;
 
-//            $slave = slave::query()->findOrFail($id);
+            $k = 1.8;
+
+            $slave['costAgility'] = $slave['cost'] / 10 * 0.8;
+            $slave['costIntelligence'] = $slave['cost'] / 10 * 0.2;
+            $slave['comfortRate'] = $slave['cost'] * $k;
 
             return view('slaveEdit', compact('slave'));
         }
-//
-////            $slave = DB::select('select * from slaves where id = ?', [$id]);
-//        $slave =
-//            DB::table('slaves')
-//                ->where('id', $id)
-//                ->first();
-//
-//        $data = array();
-//
-//        if ($_GET['agility'] !== "") {
-//            $data['agility'] = $_GET['agility'] + $slave->agility;
-//        } else if ($_GET['agility'] == "") {
-//            $data['agility'] = $slave->agility;
-//        }
-//
-//        if ($_GET['intelligence'] !== "") {
-//            $data['intelligence'] = $_GET['intelligence'] + $slave->intelligence;
-//        } else if ($_GET['intelligence'] == "") {
-//            $data['intelligence'] = $slave->intelligence;
-//        }
-//        $k = 1.8;
-//        $data['cost'] = ($data['agility'] * 0.8 + $data['intelligence'] * 0.2) * $k;
-////        var_dump($data['cost']);
-//        $data['rateComfort'] = $data['cost'] * $k;
-//        $data['dailyExpenses'] = $data['rateComfort'] / 15;
-//
-//
-//        DB::table('slaves')->where('id', $id)->update($data);
-//
-//        $slave =
-//            DB::table('slaves')
-//                ->where('id', $id)
-//                ->first();
-//        $slave = (array)$slave;
-//
-//
-//        return redirect()->route('slave.show', [$id]);
+        return null;
     }
 
     public function create()
     {
+        $user = USER::currentUser();
 
-
-        return view('createSlave');
+        if ($user->administration === true) {
+            return view('createSlave');
+        }
+        return null;
 
     }
 
     public function index()
     {
-        $slaves = DB::table('slaves')->simplePaginate(3);
+
+        $slaves = DB::table('slaves')
+            ->where('master', '=', NULL)
+            ->orWhereNotNull('seller')
+            ->simplePaginate(3);
+
         return View::make('slaves', ['slaves' => $slaves]);
-//        $slaves = Slave::all();
-//
-//        $slavesArray = $slaves->toArray();
-
-
-//
-//        $slavesArray =  json_decode($slaves);
-
-//        $result = json_encode(($slavesArray),TRUE);
-//        $results= [];
-//        foreach ($slavesArray as $slaveArray){
-//            array_push($results, $slaveArray->name);
-//        }
-
-//var_dump($slavesArray['0']['name']);
-//die();
-
-
-//        return view('slaves', ['slaves' => $slavesArray]);
 
     }
 
     public function store()
     {
-        $serverName = $_SERVER["HTTP_HOST"];
+//        $serverName = $_SERVER["HTTP_HOST"];
         $documentRoot = $_SERVER["DOCUMENT_ROOT"];
         $uploadFolder = $documentRoot . '/uploads';
-//        $slave['id'] = filter_var($_POST['id']);
+
         $k = 1.8;
+
         $slave['name'] = filter_var($_POST['name']);
         $slave['agility'] = filter_var($_POST['agility'], FILTER_VALIDATE_INT);
         $slave['intelligence'] = filter_var($_POST['intelligence'], FILTER_VALIDATE_INT);
@@ -127,20 +95,20 @@ class SlaveController extends Controller
             $file_path = Image::upload_image($_FILES["image"], $folder);
             $file_path_exploded = explode("/", $file_path);
             $filename = $file_path_exploded[count($file_path_exploded) - 1];
-            $file_url = "//$serverName/uploads/" . $filename;
-            $gladiator["image"] = $file_url;
+//            $file_url = "//$serverName/uploads/" . $filename;
+            $slave["image"] = "/uploads/" . $filename;
         }
 
 
-        DB::table('slaves')->insert($slave);
+        DB::table('slaves')
+            ->insert($slave);
+
         $slaveGet = Slave::all();
+
         $slavesArray = $slaveGet->toArray();
-//        var_dump($slavesArray['0']);
-//        die();
+
         foreach ($slavesArray as $key => $value) {
             if ($value['name'] == $slave['name']) {
-//                var_dump($value['name'], $slave['name']);
-//                return redirect()->route('slave.show', [$slavesArray['0']['id']]);
                 $id = intval($value['id']);
 
                 view('slaveView', ['slave' => $value]);
@@ -148,9 +116,9 @@ class SlaveController extends Controller
 
             }
         }
+
+        return null;
     }
-
-
 
 
     public function show($id)
@@ -158,99 +126,119 @@ class SlaveController extends Controller
 
         $slave = Slave::query()->findOrFail($id);
 
+
         return view('slaveView', compact('slave'));
     }
 
 
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        $serverName = $_SERVER["HTTP_HOST"];
-        $documentRoot = $_SERVER["DOCUMENT_ROOT"];
-        $uploadFolder = $documentRoot . '/uploads';
+
+        $request->validate([
+            'agility' => 'numeric|between:0,1',
+            'intelligence' => 'numeric|between:0,1',
+        ]);
+
 
         if ($_SERVER["REQUEST_URI"] === "/slave/$id/edit") {
-            $slave =
-                DB::table('slaves')
-                    ->where('id', $id)
-                    ->first();
-            $slave = (array)$slave;
 
-//            $slave = slave::query()->findOrFail($id);
+            $slave = Slave::getSlave($id)->first();
+
+            $slave = (array)$slave;
 
             return view('slaveEdit', compact('slave'));
         }
 
-//            $slave = DB::select('select * from slaves where id = ?', [$id]);
-        $slave =
-            DB::table('slaves')
-                ->where('id', $id)
-                ->first();
+        $slave = Slave::getSlave($id)->first();
+
 
         $data = array();
 
         if ($_POST['agility'] !== "") {
             $data['agility'] = $_POST['agility'] + $slave->agility;
+
+            $user = User::currentUser();
+
+            $user->money = $user->money - $_POST['costAgility'];
+            $user = (array)$user;
+
+            User::getUser($user['id'])->update($user);
+
         } else if ($_POST['agility'] == "") {
             $data['agility'] = $slave->agility;
         }
 
         if ($_POST['intelligence'] !== "") {
             $data['intelligence'] = $_POST['intelligence'] + $slave->intelligence;
+
+            $user = User::currentUser();
+
+            $user->money = $user->money - $_POST['costIntelligence'];
+            $user = (array)$user;
+
+            User::getUser($user['id'])->update($user);
+
         } else if ($_POST['intelligence'] == "") {
             $data['intelligence'] = $slave->intelligence;
         }
-//            foto
-//        if (!$_FILES["image"]["error"] == UPLOAD_ERR_NO_FILE) {
-//
-//            $folder = $uploadFolder;
-//            $file_path = Image::upload_image($_FILES["image"], $folder);
-//            $file_path_exploded = explode("/", $file_path);
-//            $filename = $file_path_exploded[count($file_path_exploded) - 1];
-//            $file_url = "//$serverName/uploads/" . $filename;
-//            $data["image"] = $file_url;
-//        }
 
         $k = 1.8;
 
         $data['cost'] = ($data['agility'] * 0.8 + $data['intelligence'] * 0.2) * $k;
-//        var_dump($data['cost']);
         $data['rateComfort'] = $data['cost'] * $k;
         $data['dailyExpenses'] = $data['rateComfort'] / 15;
 
-
-        DB::table('slaves')->where('id', $id)->update($data);
-
-//        $slave =
-//            DB::table('slaves')
-//                ->where('id', $id)
-//                ->first();
-//        $slave = (array)$slave;
+        Slave::getSlave($id)->update($data);
 
 
         return redirect()->route('slave.show', [$id]);
     }
-    public function buy($id) {
+
+    public function buy($id)
+    {
         $value = Session::all();
         $idSession = $value['login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d'];
         $data['master'] = $idSession;
-        DB::table('slaves')->where('id', $id)->update($data);
 
-        $user =
-            DB::table('users')
-                ->where('id', $idSession)
-                ->first();
+        Slave::getSlave($id)->update($data);
 
-        $slave =
-            DB::table('slaves')
-                ->where('id', $id)
-                ->first();
+
+        $user = User::getUser($idSession)->first();
+
+        $slave = Slave::getSlave($id)->first();
 
         $dataChange['money'] = $user->money - $slave->cost;
 
-        DB::table('users')->where('id', $idSession)->update($dataChange);
-//            var_dump($gladiator, $user);
-//            die();
+        User::getUser($idSession)->update($dataChange);
+
+        if ($slave->seller !== null) {
+
+            $user = User::getUser($slave->seller)->first();
+
+            $changeMoneySeller['money'] = $user->money + $slave->cost;
+
+            User::getUser($slave->seller)->update($changeMoneySeller);
+
+            $changeSlave['seller'] = null;
+
+            Slave::getSlave($id)->update($changeSlave);
+
+        }
+
+        return redirect()->route('slave.show', [$id]);
+
     }
 
+    public function sell($id)
+    {
+
+        $user = User::currentUser();
+
+        $data['seller'] = $user->id;
+
+        Slave::getSlave($id)->update($data);
+
+        return redirect()->route('slave.index');
+    }
 
 }
