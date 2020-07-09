@@ -144,9 +144,12 @@ class UserController extends Controller
     public function usersList () {
 
         $users = DB::table('users')
+            ->orderByDesc('rating')
             ->simplePaginate(3);
 
-        return view('usersList', compact('users'));
+        $currentUser = User::currentUser();
+
+        return view('usersList', compact(['users', 'currentUser']));
     }
 
 
@@ -164,5 +167,7 @@ class UserController extends Controller
 
         return redirect('users');
     }
+
+
 
 }

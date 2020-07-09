@@ -38,7 +38,7 @@
                             <div><a href='slave/create' class="btn">create slave</a></div>
                             <div><a href='gladiator/create' class="btn">create gladiator</a></div>
                             <div><a href="updatingIndicators" class="btn">updating indicators</a></div>
-                            <div><a href="users" class="btn">users list</a></div>
+
 
                         @endif
 

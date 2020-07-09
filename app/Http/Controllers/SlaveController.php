@@ -12,12 +12,6 @@ use Illuminate\Support\Facades\View;
 
 class SlaveController extends Controller
 {
-    protected $slaves;
-
-    public function __construct(Slave $slaves)
-    {
-        $this->slaves = $slaves;
-    }
 
     public function slaveList()
     {
@@ -27,6 +21,7 @@ class SlaveController extends Controller
 
         $slaves = DB::table('slaves')
             ->where('master', '=', $idSession)
+            ->orderBy('name')
             ->simplePaginate(3);
         return View::make('mySlaves', ['slaves' => $slaves]);
     }
@@ -68,6 +63,7 @@ class SlaveController extends Controller
         $slaves = DB::table('slaves')
             ->where('master', '=', NULL)
             ->orWhereNotNull('seller')
+            ->orderBy('name')
             ->simplePaginate(3);
 
         return View::make('slaves', ['slaves' => $slaves]);
@@ -151,36 +147,13 @@ class SlaveController extends Controller
 
         $slave = Slave::getSlave($id)->first();
 
+        $user = User::currentUser();
 
         $data = array();
 
-        if ($_POST['agility'] !== "") {
-            $data['agility'] = $_POST['agility'] + $slave->agility;
+        $data['agility'] = User::updateAttributes($data, $_POST['agility'], $_POST['costAgility'], $slave->agility, $user);
+        $data['intelligence'] = User::updateAttributes($data, $_POST['intelligence'], $_POST['costIntelligence'], $slave->intelligence, $user);
 
-            $user = User::currentUser();
-
-            $user->money = $user->money - $_POST['costAgility'];
-            $user = (array)$user;
-
-            User::getUser($user['id'])->update($user);
-
-        } else if ($_POST['agility'] == "") {
-            $data['agility'] = $slave->agility;
-        }
-
-        if ($_POST['intelligence'] !== "") {
-            $data['intelligence'] = $_POST['intelligence'] + $slave->intelligence;
-
-            $user = User::currentUser();
-
-            $user->money = $user->money - $_POST['costIntelligence'];
-            $user = (array)$user;
-
-            User::getUser($user['id'])->update($user);
-
-        } else if ($_POST['intelligence'] == "") {
-            $data['intelligence'] = $slave->intelligence;
-        }
 
         $k = 1.8;
 
@@ -198,18 +171,23 @@ class SlaveController extends Controller
     {
         $value = Session::all();
         $idSession = $value['login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d'];
+
+        $user = User::getUser($idSession)->first();
+        $slave = Slave::getSlave($id)->first();
+
+        if ($user->money >= $slave->cost) {
+
         $data['master'] = $idSession;
 
         Slave::getSlave($id)->update($data);
 
-
-        $user = User::getUser($idSession)->first();
-
-        $slave = Slave::getSlave($id)->first();
-
         $dataChange['money'] = $user->money - $slave->cost;
 
         User::getUser($idSession)->update($dataChange);
+    }   else {
+            print ('not enough money for buy');
+            die();
+    }
 
         if ($slave->seller !== null) {
 

@@ -17,14 +17,6 @@ class GladiatorController extends Controller
 
 {
 
-    protected $gladiators;
-
-    public function __construct(Gladiator $gladiators)
-    {
-        $this->gladiators = $gladiators;
-    }
-
-
     public function gladiatorList()
     {
 
@@ -33,6 +25,7 @@ class GladiatorController extends Controller
 
         $gladiators = DB::table('gladiators')
             ->where('master', '=', $idSession)
+            ->orderBy('name')
             ->simplePaginate(3);
 
 
@@ -79,6 +72,7 @@ class GladiatorController extends Controller
         $gladiators = DB::table('gladiators')
             ->where('master', '=', NULL)
             ->orWhereNotNull('seller')
+            ->orderBy('name')
             ->simplePaginate(3);
         return View::make('gladiators', ['gladiators' => $gladiators]);
 
@@ -165,59 +159,15 @@ class GladiatorController extends Controller
 
         $user = User::currentUser();
 
+        $data['strength'] = User::updateAttributes($data, $_POST['strength'], $_POST['costStrength'], $gladiator->strength, $user);
+        $data['agility'] = User::updateAttributes($data, $_POST['agility'], $_POST['costAgility'], $gladiator->agility, $user);
+        $data['heals'] = User::updateAttributes($data, $_POST['heals'], $_POST['costHeals'], $gladiator->heals, $user);
 
-        if ($_POST['strength'] !== "" ) {
-
-            $data['strength'] = $_POST['strength'] + $gladiator->strength;
-
-
-
-            $user->money = $user->money - $_POST['costStrength'];
-            $user = (array)$user;
-
-            User::getUser($user['id'])->update($user);
-
-
-        } else if ($_POST['strength'] == "") {
-            $data['strength'] = $gladiator->strength;
-
-        }
-
-        if ($_POST['agility'] !== "") {
-            $data['agility'] = $_POST['agility'] + $gladiator->agility;
-
-            $user = User::currentUser();
-
-            $user->money = $user->money - $_POST['costAgility'];
-            $user = (array)$user;
-
-            User::getUser($user['id'])->update($user);
-
-
-        } else if ($_POST['agility'] == "") {
-            $data['agility'] = $gladiator->strength;
-        }
-
-
-        if ($_POST['heals'] !== "") {
-            $data['heals'] = $_POST['heals'] + $gladiator->heals;
-
-            $user = User::currentUser();
-
-            $user->money = $user->money - $_POST['costHeals'];
-            $user = (array)$user;
-
-            User::getUser($user['id'])->update($user);
-
-        } else if ($_POST['heals'] == "") {
-            $data['heals'] = $gladiator->heals;
-        }
 
         $k = 1.1;
 
         $data['cost'] = ($data['strength'] * 0.5 + $data['agility'] * 0.3 + $data['heals'] * 0.2) * $k * 1.5;
         $data['rate'] = $data['cost'] / 7;
-//        $data['thePossibilityOfDeath'];
 
         Gladiator::getGladiator($id)->update($data);
 
@@ -229,17 +179,26 @@ class GladiatorController extends Controller
     {
         $value = Session::all();
         $idSession = $value['login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d'];
-        $data['master'] = $idSession;
-
-        Gladiator::getGladiator($id)->update($data);
 
         $user = User::getUser($idSession)->first();
-
         $gladiator = Gladiator::getGladiator($id)->first();
 
-        $dataChange['money'] = $user->money - $gladiator->cost;
+        if ($user->money >= $gladiator->cost) {
+            $data['master'] = $idSession;
 
-        User::getUser($idSession)->update($dataChange);
+            Gladiator::getGladiator($id)->update($data);
+
+            $dataChange['money'] = $user->money - $gladiator->cost;
+
+            User::getUser($idSession)->update($dataChange);
+        } else {
+            print('not enough money for buy');
+            die();
+        }
+
+
+
+
 
         if ($gladiator->seller !== null) {
 

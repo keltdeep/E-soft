@@ -10,7 +10,8 @@
                                 <img src="{{$value->image}}" class="card-img-top" alt="image">
 
                                 <div>name={{$value->name}}</div>
-
+                                <div>rating={{$value->rating}}</div>
+                                @if ($currentUser->administration)
                                 <form method="POST" action="users">
                                     <input type="hidden" value="{!! csrf_token() !!}" name="_token">
                                     <label for="id"></label>
@@ -22,9 +23,11 @@
                                                 @if($value->administration)
                                                 checked
                                         @endif
+
                                     </div>
                                   <div> <button type="submit">get rights</button></div>
                                 </form>
+                                @endif
                         @endforeach
 
 

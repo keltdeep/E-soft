@@ -27,6 +27,8 @@
 <div><a href=/gladiator class="btn">площадка гладиаторов</a></div>
 <div><a href=/slave class="btn">площадка рабынь</a></div>
 <div><a href=/profile class="btn">profile</a></div>
+<div><a href=/users class="btn">users</a></div>
+
 <div><a href=/logout class="btn"></a></div>
 
 

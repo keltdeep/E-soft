@@ -18,4 +18,7 @@ class Slave extends Model
         return DB::table('slaves')
             ->where('id', $id);
     }
+
+
+
 }
