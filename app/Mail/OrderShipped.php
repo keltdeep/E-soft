@@ -65,7 +65,6 @@ class OrderShipped extends Mailable
 
         RegisterController::create($data);
 
-
         return $this->from(env('MAILGUN_SMTP_LOGIN'))
             ->view('inviteMassage', compact('currentUser', 'login', 'password'));
 
