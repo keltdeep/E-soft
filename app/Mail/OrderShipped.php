@@ -57,7 +57,6 @@ class OrderShipped extends Mailable
         $login = $_POST['email'];
         $name = explode('@', $login);
         $password = Order::generatePassword();
-//        $passwordHash = Hash::make(Order::generatePassword());
 
         $data['email'] = $login;
         $data['name'] = $name['0'];
@@ -66,10 +65,8 @@ class OrderShipped extends Mailable
 
         RegisterController::create($data);
 
-//        DB::table('users')->insert($data);
 
-
-        return $this->from(env('MAIL_USERNAME'))
+        return $this->from(env('MAILGUN_SMTP_LOGIN'))
             ->view('inviteMassage', compact('currentUser', 'login', 'password'));
 
     }
