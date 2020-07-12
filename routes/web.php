@@ -34,7 +34,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('users', 'UserController@usersList')->name('user.userList');
     Route::post('/users', 'UserController@admRights')->name('user.admRights');
     Route::get('/', 'HomeController@index')->name('home');
-
+    Route::post('/sendInvite', 'OrderController@ship')->name('ship');
+    Route::get('/sendInvite', 'OrderController@show')->name('showShip');
 
 });
 

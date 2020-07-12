@@ -8,6 +8,15 @@
     <title>Massage</title>
 </head>
 <body>
+{{--<div>{{ $order }}</div>--}}
+<form method = POST action="/sendInvite">
+    @csrf
+    {{csrf_field()}}
+    <label for="email">email</label><input type="email" id="email" name="email">
+    <input type="hidden" value="{!! csrf_token() !!}" name="_token">
+    <button type="submit">send invite</button>
+</form>
+
 <div>hallo</div>
 </body>
 </html>
