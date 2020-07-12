@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'mailgun'),
+    'default' => env('MAIL_MAILER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -63,15 +63,6 @@ return [
 
         'mailgun' => [
             'transport' => 'mailgun',
-            'smtp' => [
-                'transport' => 'smtp',
-                'host' => env('MAILGUN_SMTP_SERVER', 'smtp.mailgun.org'),
-                'port' => env('MAILGUN_SMTP_PORT', 587),
-                'encryption' => env('MAILGUN_SMTP_LOGIN', 'tls'),
-                'username' => env('MAILGUN_SMTP_PASSWORD'),
-                'password' => env('MAILGUN_SMTP_PASSWORD'),
-                ]
-
         ],
 
         'postmark' => [
