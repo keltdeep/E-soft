@@ -69,7 +69,7 @@ class OrderShipped extends Mailable
 //        DB::table('users')->insert($data);
 
 
-        return $this->from('postmaster@sandboxeb269e13bbaa43468bdcb4858c728316.mailgun.org')
+        return $this->from(env('MAIL_USERNAME'))
             ->view('inviteMassage', compact('currentUser', 'login', 'password'));
 
     }
