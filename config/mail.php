@@ -49,7 +49,7 @@ return [
                 'transport' => 'smtp',
                 'host' => env('MAILGUN_SMTP_SERVER', 'smtp.mailgun.org'),
                 'port' => env('MAILGUN_SMTP_PORT', 587),
-                'username' => env('MAILGUN_SMTP_PASSWORD'),
+                'username' => env('MAILGUN_SMTP_LOGIN'),
                 'password' => env('MAILGUN_SMTP_PASSWORD'),
             ],
 
