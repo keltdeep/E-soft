@@ -44,17 +44,18 @@ return [
 //            'timeout' => null,
 //            'auth_mode' => null,
 //        ],
-    'mailers' => [
-        'smtp' => [
-            'transport' => 'smtp',
-            'host' => env('MAILGUN_DOMAIN', 'smtp.mailgun.org'),
-            'port' => env('MAILGUN_SMTP_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAILGUN_SMTP_LOGIN'),
-            'password' => env('MAILGUN_SMTP_PASSWORD'),
-            'timeout' => null,
-            'auth_mode' => null,
-        ],
+        'mailers' => [
+            'smtp' => [
+                'transport' => 'smtp',
+                'host' => env('MAILGUN_SMTP_SERVER', 'smtp.mailgun.org'),
+                'port' => env('MAILGUN_SMTP_PORT', 587),
+                'encryption' => env('MAILGUN_SMTP_LOGIN', 'tls'),
+                'username' => env('MAILGUN_SMTP_PASSWORD'),
+                'password' => env('MAILGUN_SMTP_PASSWORD'),
+                'timeout' => null,
+                'auth_mode' => null,
+            ],
+
 
         'ses' => [
             'transport' => 'ses',
@@ -94,9 +95,14 @@ return [
     |
     */
 
+//    'from' => [
+//        'address' => env('MAIL_FROM_ADDRESS', 'null'),
+//        'name' => env('MAIL_FROM_NAME', 'mailGunEmail'),
+//    ],
+
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'null'),
-        'name' => env('MAIL_FROM_NAME', 'mailGunEmail'),
+        'address' => env('MAILGUN_SMTP_LOGIN', 'null'),
+        'name' => env('MAILGUN_DOMAIN', 'mailGunEmail'),
     ],
 
     /*
