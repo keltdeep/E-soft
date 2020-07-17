@@ -43,7 +43,6 @@ class OrderShipped extends Mailable
     /**
      * Build the message.
      *
-     * @param Request $request
      * @return $this
      */
     public function build()
@@ -61,7 +60,6 @@ class OrderShipped extends Mailable
         $data['email'] = $login;
         $data['name'] = $name['0'];
         $data['password'] = $password;
-
 
         RegisterController::create($data);
 

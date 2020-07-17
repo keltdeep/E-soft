@@ -11,16 +11,17 @@ class OrderController extends Controller
     /**
      * Отправить заданный заказ.
      *
-     * @return void
+     * @return string
      */
     public function ship()
     {
 
-
+//        $toEmail = [];
         $comment = 'Приглашение в игру Spartacus';
-        $toEmail = $_POST['email'];
-        Mail::to($toEmail)->send(new OrderShipped($comment));
-        return 'Сообщение отправлено на адрес '. $toEmail;
+//        $toEmail['email']= $_POST['email'];
+
+        Mail::to($_POST['email'])->send(new OrderShipped($comment));
+        return 'Сообщение отправлено на адрес '. $_POST['email'];
 
     }
 
