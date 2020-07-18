@@ -28,6 +28,10 @@ class GladiatorController extends Controller
             ->orderBy('name')
             ->simplePaginate(3);
 
+        foreach ($gladiators as $gladiator) {
+            $k = 1.1;
+            $gladiator->thePossibilityOfDeath = 20 / ($gladiator->strength + $gladiator->agility + $gladiator->heals) * $k;
+        }
 
         return View::make('myGladiators', ['gladiators' => $gladiators]);
     }
@@ -74,6 +78,12 @@ class GladiatorController extends Controller
             ->orWhereNotNull('seller')
             ->orderBy('name')
             ->simplePaginate(3);
+
+        foreach ($gladiators as $gladiator) {
+            $k = 1.1;
+            $gladiator->thePossibilityOfDeath = 20 / ($gladiator->strength + $gladiator->agility + $gladiator->heals) * $k;
+        }
+
         return View::make('gladiators', ['gladiators' => $gladiators]);
 
     }
@@ -128,6 +138,10 @@ class GladiatorController extends Controller
 //        $gladiator = Gladiator::getGladiator($id)-first();
 
         $gladiator = Gladiator::query()->findOrFail($id);
+
+        $k = 1.1;
+        $gladiator['thePossibilityOfDeath'] = 20 / ($gladiator['strength'] + $gladiator['agility'] + $gladiator['heals']) * $k;
+
 
         return view('gladiatorView', compact('gladiator'));
     }
