@@ -175,7 +175,7 @@ class SlaveController extends Controller
         $user = User::getUser($idSession)->first();
         $slave = Slave::getSlave($id)->first();
 
-        if($slave->seller === $slave->master && $slave->master !== null) {
+        if($slave->seller === $slave->master && $slave->master === null) {
             $data['master'] = $idSession;
             $data['seller'] = null;
             Slave::getSlave($id)->update($data);
