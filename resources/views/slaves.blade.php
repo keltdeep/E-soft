@@ -54,7 +54,7 @@
                         @endforeach
 
 
-                            <div>{{$slaves->links()}}</div>
+                            {{$slaves->links()}}
 
         </div>
     </div>

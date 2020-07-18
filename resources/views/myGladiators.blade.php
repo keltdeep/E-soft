@@ -48,6 +48,7 @@
                                             </svg>
                                             {{round($value->cost, 2)}}
                                         </div>
+
                                         <form method="GET" action="gladiator/sell/{{$value->id}}">
                                             <label for="id"></label>
                                             <input id="id" type="hidden" name="id" class="form-control" value="{{$value->id}}">
@@ -59,9 +60,9 @@
                                 @endif
 
                         @endforeach
-<div>
+
                         {{$gladiators->links()}}
-</div>
+
         </div>
     </div>
 @endsection
