@@ -20,8 +20,8 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/home', 'UserController@userImage');
-    Route::get('/buyGladiator/{id}', 'App\Http\Controllers\GladiatorController@buy');
-    Route::get('/buySlave/{id}', 'App\Http\Controllers\SlaveController@buy');
+    Route::get('/buyGladiator/{id}', 'GladiatorController@buy');
+    Route::get('/buySlave/{id}', 'SlaveController@buy');
     Route::get('myGladiators', 'GladiatorController@gladiatorList');
     Route::get('mySlaves', 'SlaveController@slaveList');
     Route::resource('gladiator','GladiatorController');
