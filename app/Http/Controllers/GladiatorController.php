@@ -197,6 +197,14 @@ class GladiatorController extends Controller
         $user = User::getUser($idSession)->first();
         $gladiator = Gladiator::getGladiator($id)->first();
 
+        if($gladiator->seller === $gladiator->master && $gladiator->master !== null) {
+            $data['master'] = $idSession;
+            $data['seller'] = null;
+            Gladiator::getGladiator($id)->update($data);
+
+            return redirect()->route('gladiator.show', [$gladiator->id]);
+        }
+
         if ($user->money >= $gladiator->cost) {
             $data['master'] = $idSession;
 
@@ -210,10 +218,6 @@ class GladiatorController extends Controller
             die();
         }
 
-
-
-
-
         if ($gladiator->seller !== null) {
 
             $user = User::getUser($gladiator->seller)->first();
@@ -226,9 +230,9 @@ class GladiatorController extends Controller
 
             Gladiator::getGladiator($id)->update($changeGladiator);
 
+            return redirect()->route('gladiator.show', [$gladiator->id]);
         }
 
-        return redirect()->route('gladiator.show', [$id]);
     }
 
 
