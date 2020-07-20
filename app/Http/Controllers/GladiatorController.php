@@ -62,6 +62,7 @@ class GladiatorController extends Controller
     {
         $user = USER::currentUser();
 
+
         if ($user->administration === true) {
             return view('createGladiator');
         }
@@ -88,10 +89,19 @@ class GladiatorController extends Controller
 
     }
 
-    public function store()
+    public function store(Request $request)
     {
 //        Создание Гладиаторов
 //        $serverName = $_SERVER["HTTP_HOST"];
+
+        $request->validate([
+            'name' => 'string',
+            'strength' => 'numeric|between:1,10',
+            'agility' => 'numeric|between:1,10',
+            'heals' => 'numeric|between:1,10',
+            'image' => 'image'
+        ]);
+
         $documentRoot = $_SERVER["DOCUMENT_ROOT"];
         $uploadFolder = $documentRoot . '/uploads';
 

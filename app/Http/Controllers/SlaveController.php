@@ -70,8 +70,16 @@ class SlaveController extends Controller
 
     }
 
-    public function store()
+    public function store(Request $request)
     {
+
+        $request->validate([
+            'name' => 'string',
+            'agility' => 'numeric|between:1,10',
+            'intelligence' => 'numeric|between:1,10',
+            'image' => 'image'
+        ]);
+
 //        $serverName = $_SERVER["HTTP_HOST"];
         $documentRoot = $_SERVER["DOCUMENT_ROOT"];
         $uploadFolder = $documentRoot . '/uploads';
