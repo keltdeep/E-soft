@@ -50,10 +50,25 @@
                                         </div>
 
                                         <form method="GET" action="gladiator/sell/{{$value->id}}">
-                                            <label for="id"></label>
                                             <input id="id" type="hidden" name="id" class="form-control" value="{{$value->id}}">
                                             <button type="submit">Продать</button>
                                         </form>
+
+                                        @if($value->arena !== null)
+                                            <form method="POST" action="arena">
+                                                <input type="hidden" value="{!! csrf_token() !!}" name="_token">
+                                                <input id="id" type="hidden" name="id" class="form-control" value="{{$value->id}}">
+                                                <input id="arena" type="hidden" name="arena" class="form-control" value="{{$value->arena = null}}">
+                                                <button type="submit">Снять с арены</button>
+                                            </form>
+                                        @else
+                                            <form method="POST" action="arena">
+                                            <input type="hidden" value="{!! csrf_token() !!}" name="_token">
+                                            <input id="id" type="hidden" name="id" class="form-control" value="{{$value->id}}">
+                                            <input id="arena" type="hidden" name="arena" class="form-control" value="{{$value->arena = $value->master}}">
+                                            <button type="submit">Отправить на арену</button>
+                                        </form>
+                                            @endif
                                     </div>
                                     <a href=/gladiator/{{$value->id}}/edit class="btn">Тренировка</a>
                                 </div>

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 
-class CreateGladiators extends Migration
+class ArenaInfo extends Migration
 {
     /**
      * Run the migrations.
@@ -15,9 +15,9 @@ class CreateGladiators extends Migration
      */
     public function up()
     {
-        Schema::create('gladiators', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name')->unique();
+        Schema::create('arenaInfo', function (Blueprint $table) {
+            $table->integer('id');
+            $table->string('name');
             $table->integer('strength')->notnull();
             $table->integer('agility')->notnull();
             $table->integer('heals')->notnull();
@@ -39,7 +39,7 @@ class CreateGladiators extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gladiators');
+        Schema::dropIfExists('arenaInfo');
 
     }
 }

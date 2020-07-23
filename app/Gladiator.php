@@ -19,4 +19,64 @@ public static function getGladiator($id) {
         ->where('id', $id);
 }
 
+public static function ArenaFight ($gladiator1, $gladiator2)
+{
+
+    $dataArena['arena'] = null;
+
+
+    if (rand(0, ($gladiator1->cost + $gladiator2->cost)) > $gladiator1->cost) {
+        $user = User::getUser($gladiator1->master)->first();
+
+        $dataUser['money'] = $user->money + 3;
+
+//        вероятность смерти после поражение 70%
+        if(rand(1, 10) <= 7) {
+            $dataArena['master'] = -1;
+        }
+        else {
+            $dataArena['master'] = $gladiator2->master;
+    }
+
+
+        DB::table('users')
+            ->where('id', $gladiator1->master)
+            ->update($dataUser);
+        DB::table('gladiators')
+            ->where('id', $gladiator2->id)
+            ->update($dataArena);
+
+        DB::table('arenaInfo')->insert((array) $gladiator2);
+
+
+        return $gladiator1;
+    }
+
+    else {
+            $user = User::getUser($gladiator2->master)->first();
+
+        if(rand(1, 10) <= 7) {
+            $dataArena['master'] = -1;
+        }
+
+        else {
+            $dataArena['master'] = $gladiator1->master;
+        }
+
+            $dataUser['money'] = $user->money + 3;
+            DB::table('users')
+                ->where('id', $gladiator2->master)
+                ->update($dataUser);
+            DB::table('gladiators')
+                ->where('id', $gladiator1->id)
+                ->update($dataArena);
+
+        DB::table('arenaInfo')->insert((array) $gladiator1);
+
+        return $gladiator2;
+
+    }
+    }
+
+
 }

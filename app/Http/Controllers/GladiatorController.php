@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use App\Image;
 use Illuminate\Validation\ValidationException;
+use mysql_xdevapi\Table;
 
 
 class GladiatorController extends Controller
@@ -242,6 +243,7 @@ class GladiatorController extends Controller
 
             return redirect()->route('gladiator.show', [$gladiator->id]);
         }
+        return redirect()->route('gladiator.show', [$gladiator->id]);
 
     }
 
@@ -258,6 +260,109 @@ class GladiatorController extends Controller
         return redirect()->route('gladiator.index');
     }
 
+public function arenaView() {
+
+
+    $gladiators = DB::table('gladiators')->where('arena', '!=', '[NULL]')->get();
+    $users = User::all();
+        return view('arena', compact(['gladiators', 'users']));
+
+}
+    public function arena() {
+        $id = $_POST["id"];
+        if($_POST['arena'] !== "") {
+            $data['arena'] = rand(1,10);
+        }
+        else {
+            $data['arena'] = null;
+        }
+
+        DB::table('gladiators')->where('id', $id)->update($data);
+
+        $gladiators = DB::table('gladiators')
+            ->where('arena', '!=', '[NULL]')
+            ->get();
+
+
+        if(count($gladiators) === 4) {
+//            каждому начислить бабки (20% от стоимости например) за участие в соответствии с характеристиками
+
+                foreach ($gladiators as $key => $value) {
+                    $user = User::getUser($value->master)->first();
+                    $dataUser['money'] =$user->money + $value->cost * 0.2;
+                    $dataArena['arena'] = null;
+
+                    DB::table('users')
+                        ->where('id', $value->master)
+                        ->update($dataUser);
+
+                    //            Случайно отсортировать бойцов
+
+
+                   $gladiatorsList = DB::table('gladiators')
+                       ->where('arena', '!=', '[NULL]')
+                       ->orderByDesc('arena')
+                       ->get();
+
+                    //            выявить соотношение сил, шансы на победу
+
+                    $winner1 = Gladiator::ArenaFight($gladiatorsList[0], $gladiatorsList[1]);
+                    $winner2 = Gladiator::ArenaFight($gladiatorsList[2], $gladiatorsList[3]);
+                    $champion = Gladiator::ArenaFight($winner1, $winner2);
+
+                    DB::table('arenaInfo')->insert((array) $champion);
+
+                    var_dump($champion);
+                    die();
+                    DB::table('gladiators')
+                        ->where('id', $champion->id)
+                        ->update($dataArena);
+
+                    $users = User::all();
+
+
+                    return view('lastArena', compact(['gladiatorsList', 'winner1', 'winner2', 'champion', 'users']));
+
+
+//
+//                    if(rand(0, ($gladiatorsList[0]->cost + $gladiatorsList[1]->cost)) > $gladiatorsList[0]->cost) {
+//                        $user = User::getUser($gladiatorsList[0]->master)->first();
+//
+//                        $dataUser['money'] =$user->money + 3;
+//                        DB::table('users')
+//                            ->where('id', $gladiatorsList[0]->master)
+//                            ->update($dataUser);
+//                        DB::table('gladiators')
+//                            ->where('id', $gladiatorsList[1]->id)
+//                            ->update($dataArena);
+//                    }
+//                    else {
+//                        $user = User::getUser($gladiatorsList[1]->master)->first();
+//
+//                        $dataUser['money'] =$user->money + 3;
+//                        DB::table('users')
+//                            ->where('id', $gladiatorsList[1]->master)
+//                            ->update($dataUser);
+//                        DB::table('gladiators')
+//                            ->where('id', $gladiatorsList[0]->id)
+//                            ->update($dataArena);
+//                    }
+
+
+                }
+
+//            рандомно начислить победу в соответствии с шансами, начислить бабки за победу
+//            Убить или не убить проигравшего, снять с арены
+//            схватка победителей, начислить бабки за победу
+//            убить или не убить проигравшего(мб -1 в бд арены), снять с арены
+//            незабыть отображение мертвых потом (кладбище может)
+//            незабыть отображение арены у пользователей
+//            накинуть отображение аренки js'ом
+        }
+
+        return redirect()->route('myGladiators');
+
+    }
 
 }
 

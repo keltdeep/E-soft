@@ -22,7 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/home', 'UserController@userImage');
     Route::get('/buyGladiator/{id}', 'GladiatorController@buy');
     Route::get('/buySlave/{id}', 'SlaveController@buy');
-    Route::get('myGladiators', 'GladiatorController@gladiatorList');
+    Route::get('myGladiators', 'GladiatorController@gladiatorList')->name('myGladiators');
     Route::get('mySlaves', 'SlaveController@slaveList');
     Route::resource('gladiator','GladiatorController');
     Route::resource('slave', 'SlaveController');
@@ -36,7 +36,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::post('/sendInvite', 'OrderController@ship')->name('ship');
     Route::get('/sendInvite', 'OrderController@show')->name('showShip');
-
+    Route::post('/arena', 'GladiatorController@arena')->name('arena');
+    Route::get('/arena', 'GladiatorController@arenaView')->name('arenaView');
+    Route::get('/lastArena',function () {
+        return view('lastArena');
+    });
 });
 
 

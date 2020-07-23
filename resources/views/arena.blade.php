@@ -8,12 +8,10 @@
 
             @csrf
 
-
+<div>Добро пожаловать на Арену</div>
+            <div>Бой начнется когда наберется 4 участника</div>
             @foreach ($gladiators as $key => $value)
                 <div class="card" style="width: 15rem;">
-                    <form method="GET" action="buyGladiator/{{$value->id}}">
-                        <input id="id" type="hidden" name="id" value="{{$value->id}}">
-
                         @if(isset($value->image))
                             <img class="card-img-top" src="{{$value->image}}" alt="">
                         @endif
@@ -37,10 +35,14 @@
                                     <td>Доход в день</td>
                                     <td>{{round($value->rate, 2)}}</td>
                                 </tr>
+
+                                @foreach($users as $keyUser => $valueUser)
+                                    @if($value->master == $valueUser->id)
                                 <tr>
-                                    <td>Вероятность смерти</td>
-                                    <td>{{round($value->thePossibilityOfDeath, 2)}}</td>
+                                    <td>Владелец {{$valueUser->name}}</td>
                                 </tr>
+                                @endif
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -51,20 +53,11 @@
                                     <path d="M13 4a2 2 0 0 0 2 2V4h-2zM3 4a2 2 0 0 1-2 2V4h2zm10 8a2 2 0 0 1 2-2v2h-2zM3 12a2 2 0 0 0-2-2v2h2zm7-4a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
                                 </svg>
                                 {{round($value->cost, 2)}}
-                                @if($value->master === $value->seller && $value->seller !== null)
-                            </div>
-                            <button class="btn btn-primary" type="submit">Снять с продажи</button>
-                        </div>
-                        @else
-                            </div>
-                            <button class="btn btn-primary" type="submit">Купить</button>
-                        </div>
-        @endif
-                    </form>
-                </div>
-            @endforeach
-
-            {{$gladiators->links()}}
-        </div>
     </div>
+    @endforeach
+
+    </div>
+    </div>
+                <a href="/lastArena" class="btn">Результаты предыдущей Арены</a>
+
 @endsection

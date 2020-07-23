@@ -71,6 +71,9 @@
                         <li class="nav-item {{ request()->is('mySlaves') ? 'active' : '' }}">
                             <a class="nav-link" href="/mySlaves">Мои рабыни</a>
                         </li>
+                        <li class="nav-item {{ request()->is('arena') ? 'active' : '' }}">
+                            <a class="nav-link" href="/arena">Арена</a>
+                        </li>
                         <li class="nav-item {{ request()->is('sendInvite') ? 'active' : '' }}">
                             <a class="nav-link" href="/sendInvite">Пригласить друга</a>
                         </li>

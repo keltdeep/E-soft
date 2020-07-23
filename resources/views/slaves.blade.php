@@ -46,9 +46,15 @@
                                             <path d="M13 4a2 2 0 0 0 2 2V4h-2zM3 4a2 2 0 0 1-2 2V4h2zm10 8a2 2 0 0 1 2-2v2h-2zM3 12a2 2 0 0 0-2-2v2h2zm7-4a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
                                         </svg>
                                         {{round($value->cost, 2)}}
+                                        @if($value->master === $value->seller && $value->master !== null)
                                     </div>
-                                    <button class="btn btn-primary" type="submit">Купить</button>
+                                    <button class="btn btn-primary" type="submit">Снять с продажи</button>
                                 </div>
+                    @else
+                </div>
+                <button class="btn btn-primary" type="submit">Купить</button>
+        </div>
+        @endif
                             </form>
                     </div>
                         @endforeach

@@ -33,12 +33,9 @@
 
                         <div>dailyExpenses={{round($slave['dailyExpenses'], 2)}}</div>
 
-                        <div>
-                            <button type="submit">train</button>
-                        </div>
-
+                        @if($slave['master'] !== null)
                         <a href={{$slave['id']}}/edit class="btn">edit</a>
-
+@endif
 
 
 
