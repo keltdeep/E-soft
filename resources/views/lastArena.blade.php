@@ -2,15 +2,15 @@
 
 
 @section('content')
+    <div>Результаты Арены</div>
     <div class="container">
         <div class="row justify-content-center">
             {{--        <div class="col-md-12">--}}
 
             @csrf
 
-            <div>Добро пожаловать на Арену</div>
-            <div>Бой начнется когда наберется 4 участника</div>
-            @foreach ($gladiatorsList as $key => $value)
+
+            @foreach ($lastArenaGladiators as $key => $value)
                 <div class="card" style="width: 15rem;">
                     @if(isset($value->image))
                         <img class="card-img-top" src="{{$value->image}}" alt="">
@@ -43,6 +43,27 @@
                                     </tr>
                                 @endif
                             @endforeach
+                            <tr>
+                                <td>Заработал на арене</td>
+                                @for($i = 0; $i <4; $i++)
+                                    @if ($i == 0 && $i == $key)
+
+                                <td>{{$value->cost * 0.2 + $i + 9}}</td>
+                                        @endif
+                                    @if ($i == 1 && $i == $key)
+                                            <td>{{$value->cost * 0.2 + $i + 2}}</td>
+                                    @endif
+                                    @if($i > 1 && $i == $key)
+                                        <td>{{$value->cost * 0.2}}</td>
+                                    @endif
+                                    @endfor
+                            </tr>
+                            <tr>
+
+                            @if($value->arena == -1)
+                                    <td>Умер</td>
+                                @endif
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -54,6 +75,8 @@
                             </svg>
                             {{round($value->cost, 2)}}
                         </div>
+                    </div>
+                </div>
                         @endforeach
 
                     </div>

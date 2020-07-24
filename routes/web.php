@@ -38,9 +38,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/sendInvite', 'OrderController@show')->name('showShip');
     Route::post('/arena', 'GladiatorController@arena')->name('arena');
     Route::get('/arena', 'GladiatorController@arenaView')->name('arenaView');
-    Route::get('/lastArena',function () {
-        return view('lastArena');
-    });
+    Route::get('/lastArena', 'GladiatorController@lastArena')->name('lastArena');
+
 });
 
 

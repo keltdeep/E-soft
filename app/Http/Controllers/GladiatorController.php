@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Gladiator;
 use Illuminate\Support\Facades\DB;
@@ -263,7 +264,10 @@ class GladiatorController extends Controller
 public function arenaView() {
 
 
-    $gladiators = DB::table('gladiators')->where('arena', '!=', '[NULL]')->get();
+    $gladiators = DB::table('gladiators')
+        ->where([['arena', '!=', '[NULL]'], ['arena', '!=', '-1']])
+        ->get();
+
     $users = User::all();
         return view('arena', compact(['gladiators', 'users']));
 
@@ -280,7 +284,7 @@ public function arenaView() {
         DB::table('gladiators')->where('id', $id)->update($data);
 
         $gladiators = DB::table('gladiators')
-            ->where('arena', '!=', '[NULL]')
+            ->where([['arena', '!=', '[NULL]'], ['arena', '!=', '-1']])
             ->get();
 
 
@@ -309,19 +313,24 @@ public function arenaView() {
                     $winner1 = Gladiator::ArenaFight($gladiatorsList[0], $gladiatorsList[1]);
                     $winner2 = Gladiator::ArenaFight($gladiatorsList[2], $gladiatorsList[3]);
                     $champion = Gladiator::ArenaFight($winner1, $winner2);
+                    $champion->updated_at = Carbon::now();
 
                     DB::table('arenaInfo')->insert((array) $champion);
 
-                    var_dump($champion);
-                    die();
                     DB::table('gladiators')
                         ->where('id', $champion->id)
                         ->update($dataArena);
 
                     $users = User::all();
 
+                    $lastArenaGladiators = DB::table('arenaInfo')
+                        ->orderByDesc('updated_at')
+                        ->limit(4)
+                        ->get();
 
-                    return view('lastArena', compact(['gladiatorsList', 'winner1', 'winner2', 'champion', 'users']));
+                    return redirect()->route('lastArena', compact(['lastArenaGladiators', 'users']));
+
+//                    return view('lastArena', compact(['lastArenaGladiators', 'users']));
 
 
 //
@@ -362,6 +371,18 @@ public function arenaView() {
 
         return redirect()->route('myGladiators');
 
+    }
+
+    public function lastArena() {
+
+        $users = User::all();
+
+        $lastArenaGladiators = DB::table('arenaInfo')
+            ->orderByDesc('updated_at')
+            ->limit(4)
+            ->get();
+
+        return view('lastArena', compact(['lastArenaGladiators', 'users']));
     }
 
 }

@@ -2,14 +2,14 @@
 
 
 @section('content')
+    <div>Добро пожаловать на Арену</div>
+    <div>Бой начнется когда наберется 4 участника</div>
     <div class="container">
         <div class="row justify-content-center">
-            {{--        <div class="col-md-12">--}}
 
             @csrf
 
-<div>Добро пожаловать на Арену</div>
-            <div>Бой начнется когда наберется 4 участника</div>
+
             @foreach ($gladiators as $key => $value)
                 <div class="card" style="width: 15rem;">
                         @if(isset($value->image))
@@ -53,11 +53,13 @@
                                     <path d="M13 4a2 2 0 0 0 2 2V4h-2zM3 4a2 2 0 0 1-2 2V4h2zm10 8a2 2 0 0 1 2-2v2h-2zM3 12a2 2 0 0 0-2-2v2h2zm7-4a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
                                 </svg>
                                 {{round($value->cost, 2)}}
+                            </div>
+                        </div>
     </div>
     @endforeach
 
     </div>
     </div>
-                <a href="/lastArena" class="btn">Результаты предыдущей Арены</a>
+    <a href="/lastArena" class="btn">Результаты предыдущей Арены</a>
 
 @endsection
