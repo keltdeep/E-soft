@@ -48,7 +48,7 @@
                                 @for($i = 0; $i <4; $i++)
                                     @if ($i == 0 && $i == $key)
 
-                                <td>{{$value->cost * 0.2 + $i + 9}}</td>
+                                <td>{{$value->cost * 0.2 + $i + 6}}</td>
                                         @endif
                                     @if ($i == 1 && $i == $key)
                                             <td>{{$value->cost * 0.2 + $i + 2}}</td>
