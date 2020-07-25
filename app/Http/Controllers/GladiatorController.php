@@ -308,8 +308,11 @@ class GladiatorController extends Controller
                        ->get();
 
                     $winner1 = Gladiator::ArenaFight($gladiatorsList[0], $gladiatorsList[1]);
+                    sleep(1);
                     $winner2 = Gladiator::ArenaFight($gladiatorsList[2], $gladiatorsList[3]);
+                    sleep(1);
                     $champion = Gladiator::ArenaFight($winner1, $winner2);
+                    sleep(1);
                     $champion->updated_at = Carbon::now();
 
                     DB::table('arenaInfo')->insert((array) $champion);
