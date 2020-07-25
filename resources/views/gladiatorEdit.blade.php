@@ -56,8 +56,8 @@
                             <input id="costAgility" type="hidden" name="costAgility" class="form-control" value="{{round($gladiator['costAgility'], 2)}}">
                             <div>costHeals={{round($gladiator['costHeals'], 2)}}</div>
                             <input id="costHeals" type="hidden" name="costHeals" class="form-control" value="{{round($gladiator['costHeals'], 2)}}">
-                            <div>thePossibilityOfDeath={{round($gladiator['thePossibilityOfDeath'], 2)}}</div>
-                            <input id="thePossibilityOfDeath" type="hidden" name="thePossibilityOfDeath" class="form-control" value="{{round($gladiator['thePossibilityOfDeath'], 2)}}">
+{{--                            <div>thePossibilityOfDeath={{round($gladiator['thePossibilityOfDeath'], 2)}}</div>--}}
+{{--                            <input id="thePossibilityOfDeath" type="hidden" name="thePossibilityOfDeath" class="form-control" value="{{round($gladiator['thePossibilityOfDeath'], 2)}}">--}}
 
                             <div>rate={{round($gladiator['rate'], 2)}}</div>
 

@@ -58,19 +58,24 @@ class UserController extends Controller
         foreach ($gladiators as $key => $value) {
             $k = 1.1;
             $user = DB::table('users')->where('id', $value->master)->first();
-            if ($user !== null) {
-                if (mt_rand(0, 130) >= 20/($value->strength + $value->agility + $value->heals)) {
-                    $dataGladiators['money'] = $user->money + $value->rate;
-                    $dataGladiators['rating'] = $user->rating + $value->cost * $k;
-
-                    User::getUser($value->master)->update($dataGladiators);
-                }
-
-                else {
-                    $dataDeath['master'] = -1;
-                    Gladiator::getGladiator($value->id)->update($dataDeath);
-                }
+            if ($user !== null && $value->arena != -1) {
+                $dataGladiators['money'] = $user->money + $value->rate;
+                $dataGladiators['rating'] = $user->rating + $value->cost * $k;
+                User::getUser($value->master)->update($dataGladiators);
             }
+//            if ($user !== null) {
+//                if (mt_rand(0, 130) >= 20/($value->strength + $value->agility + $value->heals)) {
+//                    $dataGladiators['money'] = $user->money + $value->rate;
+//                    $dataGladiators['rating'] = $user->rating + $value->cost * $k;
+//
+//                    User::getUser($value->master)->update($dataGladiators);
+//                }
+//
+//                else {
+//                    $dataDeath['master'] = -1;
+//                    Gladiator::getGladiator($value->id)->update($dataDeath);
+//                }
+//            }
 
         }
 

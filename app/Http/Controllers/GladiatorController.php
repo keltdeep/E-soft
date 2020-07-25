@@ -30,10 +30,10 @@ class GladiatorController extends Controller
             ->orderBy('name')
             ->simplePaginate(3);
 
-        foreach ($gladiators as $gladiator) {
-            $k = 1.1;
-            $gladiator->thePossibilityOfDeath = 20 / ($gladiator->strength + $gladiator->agility + $gladiator->heals) * $k;
-        }
+//        foreach ($gladiators as $gladiator) {
+//            $k = 1.1;
+//            $gladiator->thePossibilityOfDeath = 20 / ($gladiator->strength + $gladiator->agility + $gladiator->heals) * $k;
+//        }
 
         return View::make('myGladiators', ['gladiators' => $gladiators]);
     }
@@ -53,7 +53,7 @@ class GladiatorController extends Controller
             $gladiator['costStrength'] = $gladiator['cost'] / 10 * 0.5;
             $gladiator['costAgility'] = $gladiator['cost'] / 10 * 0.3;
             $gladiator['costHeals'] = $gladiator['cost'] / 10 * 0.2;
-            $gladiator['thePossibilityOfDeath'] = 20 / ($gladiator['strength'] + $gladiator['agility'] + $gladiator['heals']) * $k;
+//            $gladiator['thePossibilityOfDeath'] = 20 / ($gladiator['strength'] + $gladiator['agility'] + $gladiator['heals']) * $k;
 
             return view('gladiatorEdit', compact('gladiator'));
         }
@@ -82,10 +82,10 @@ class GladiatorController extends Controller
             ->orderBy('name')
             ->simplePaginate(3);
 
-        foreach ($gladiators as $gladiator) {
-            $k = 1.1;
-            $gladiator->thePossibilityOfDeath = 20 / ($gladiator->strength + $gladiator->agility + $gladiator->heals) * $k;
-        }
+//        foreach ($gladiators as $gladiator) {
+//            $k = 1.1;
+//            $gladiator->thePossibilityOfDeath = 20 / ($gladiator->strength + $gladiator->agility + $gladiator->heals) * $k;
+//        }
 
         return View::make('gladiators', ['gladiators' => $gladiators]);
 
@@ -97,7 +97,7 @@ class GladiatorController extends Controller
 //        $serverName = $_SERVER["HTTP_HOST"];
 
         $request->validate([
-            'name' => 'string',
+            'name' => 'string|unique:gladiators',
             'strength' => 'numeric|between:1,10',
             'agility' => 'numeric|between:1,10',
             'heals' => 'numeric|between:1,10',
@@ -147,12 +147,11 @@ class GladiatorController extends Controller
 
     public function show($id)
     {
-//        $gladiator = Gladiator::getGladiator($id)-first();
 
         $gladiator = Gladiator::query()->findOrFail($id);
 
-        $k = 1.1;
-        $gladiator['thePossibilityOfDeath'] = 20 / ($gladiator['strength'] + $gladiator['agility'] + $gladiator['heals']) * $k;
+//        $k = 1.1;
+//        $gladiator['thePossibilityOfDeath'] = 20 / ($gladiator['strength'] + $gladiator['agility'] + $gladiator['heals']) * $k;
 
 
         return view('gladiatorView', compact('gladiator'));
@@ -261,17 +260,18 @@ class GladiatorController extends Controller
         return redirect()->route('gladiator.index');
     }
 
-public function arenaView() {
+    public function arenaView() {
 
-
-    $gladiators = DB::table('gladiators')
+        $gladiators = DB::table('gladiators')
         ->where([['arena', '!=', '[NULL]'], ['arena', '!=', '-1']])
         ->get();
 
-    $users = User::all();
+        $users = User::all();
+
         return view('arena', compact(['gladiators', 'users']));
 
 }
+
     public function arena() {
         $id = $_POST["id"];
         if($_POST['arena'] !== "") {
@@ -289,26 +289,23 @@ public function arenaView() {
 
 
         if(count($gladiators) === 4) {
-//            каждому начислить бабки (20% от стоимости например) за участие в соответствии с характеристиками
 
                 foreach ($gladiators as $key => $value) {
                     $user = User::getUser($value->master)->first();
-                    $dataUser['money'] =$user->money + $value->cost * 0.2;
-                    $dataArena['arena'] = null;
+                    $dataUser['money'] = $user->money + $value->cost * 0.2;
 
                     DB::table('users')
                         ->where('id', $value->master)
                         ->update($dataUser);
+                }
+                foreach ($gladiators as $key => $value) {
 
-                    //            Случайно отсортировать бойцов
-
+                   $dataArena['arena'] = null;
 
                    $gladiatorsList = DB::table('gladiators')
-                       ->where('arena', '!=', '[NULL]')
+                       ->where([['arena', '!=', '[NULL]'], ['arena', '!=', -1]])
                        ->orderByDesc('arena')
                        ->get();
-
-                    //            выявить соотношение сил, шансы на победу
 
                     $winner1 = Gladiator::ArenaFight($gladiatorsList[0], $gladiatorsList[1]);
                     $winner2 = Gladiator::ArenaFight($gladiatorsList[2], $gladiatorsList[3]);
@@ -329,44 +326,7 @@ public function arenaView() {
                         ->get();
 
                     return redirect()->route('lastArena', compact(['lastArenaGladiators', 'users']));
-
-//                    return view('lastArena', compact(['lastArenaGladiators', 'users']));
-
-
-//
-//                    if(rand(0, ($gladiatorsList[0]->cost + $gladiatorsList[1]->cost)) > $gladiatorsList[0]->cost) {
-//                        $user = User::getUser($gladiatorsList[0]->master)->first();
-//
-//                        $dataUser['money'] =$user->money + 3;
-//                        DB::table('users')
-//                            ->where('id', $gladiatorsList[0]->master)
-//                            ->update($dataUser);
-//                        DB::table('gladiators')
-//                            ->where('id', $gladiatorsList[1]->id)
-//                            ->update($dataArena);
-//                    }
-//                    else {
-//                        $user = User::getUser($gladiatorsList[1]->master)->first();
-//
-//                        $dataUser['money'] =$user->money + 3;
-//                        DB::table('users')
-//                            ->where('id', $gladiatorsList[1]->master)
-//                            ->update($dataUser);
-//                        DB::table('gladiators')
-//                            ->where('id', $gladiatorsList[0]->id)
-//                            ->update($dataArena);
-//                    }
-
-
                 }
-
-//            рандомно начислить победу в соответствии с шансами, начислить бабки за победу
-//            Убить или не убить проигравшего, снять с арены
-//            схватка победителей, начислить бабки за победу
-//            убить или не убить проигравшего(мб -1 в бд арены), снять с арены
-//            незабыть отображение мертвых потом (кладбище может)
-//            незабыть отображение арены у пользователей
-//            накинуть отображение аренки js'ом
         }
 
         return redirect()->route('myGladiators');
@@ -383,6 +343,19 @@ public function arenaView() {
             ->get();
 
         return view('lastArena', compact(['lastArenaGladiators', 'users']));
+    }
+
+    public function cemeteryView () {
+
+        $users = User::all();
+
+        $deadGladiators = DB::table('arenaInfo')
+            ->where('arena', '=', -1)
+            ->orderByDesc('updated_at')
+            ->simplePaginate(6);
+
+        return view('cemeteryView', compact(['deadGladiators', 'users']));
+
     }
 
 }

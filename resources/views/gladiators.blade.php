@@ -31,16 +31,16 @@
                                 </tr>
                                 <tr>
                                     <td>Здоровье</td>
-                                    <td>{{$value->strength}}</td>
+                                    <td>{{$value->heals}}</td>
                                 </tr>
                                 <tr>
                                     <td>Доход в день</td>
                                     <td>{{round($value->rate, 2)}}</td>
                                 </tr>
-                                <tr>
-                                    <td>Вероятность смерти</td>
-                                    <td>{{round($value->thePossibilityOfDeath, 2)}}</td>
-                                </tr>
+{{--                                <tr>--}}
+{{--                                    <td>Вероятность смерти</td>--}}
+{{--                                    <td>{{round($value->thePossibilityOfDeath, 2)}}</td>--}}
+{{--                                </tr>--}}
                                 </tbody>
                             </table>
                         </div>

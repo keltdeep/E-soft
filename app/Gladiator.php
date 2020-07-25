@@ -28,10 +28,8 @@ public static function ArenaFight ($gladiator1, $gladiator2)
 //    $dataArena['arena'] = null;
 
 
-    if (rand(0, ($gladiator1->cost + $gladiator2->cost)) > $gladiator1->cost) {
-        $user = User::getUser($gladiator1->master)->first();
+    if (rand(0, ($gladiator1->cost + $gladiator2->cost)) > $gladiator2->cost) {
 
-        $dataUser['money'] = $user->money + 3;
 
 //        вероятность смерти после поражение 70%
         if(rand(1, 10) <= 7) {
@@ -40,8 +38,11 @@ public static function ArenaFight ($gladiator1, $gladiator2)
         else {
             $dataArena['arena'] = null;
     }
-        $gladiator2->updated_at = Carbon::now();
+        $user = User::getUser($gladiator1->master)->first();
 
+        $dataUser['money'] = $user->money + 3;
+
+        $gladiator2->updated_at = Carbon::now();
 
         DB::table('users')
             ->where('id', $gladiator1->master)
@@ -50,7 +51,7 @@ public static function ArenaFight ($gladiator1, $gladiator2)
             ->where('id', $gladiator2->id)
             ->update($dataArena);
 
-        $gladiator2->arena = -1;
+        $gladiator2->arena = $dataArena['arena'];
 
         DB::table('arenaInfo')->insert((array) $gladiator2);
 
@@ -59,7 +60,6 @@ public static function ArenaFight ($gladiator1, $gladiator2)
     }
 
     else {
-            $user = User::getUser($gladiator2->master)->first();
 
         if(rand(1, 10) <= 7) {
             $dataArena['arena'] = -1;
@@ -68,6 +68,7 @@ public static function ArenaFight ($gladiator1, $gladiator2)
         else {
             $dataArena['arena'] = null;
         }
+        $user = User::getUser($gladiator2->master)->first();
 
             $dataUser['money'] = $user->money + 3;
             DB::table('users')
@@ -78,7 +79,7 @@ public static function ArenaFight ($gladiator1, $gladiator2)
                 ->update($dataArena);
         $gladiator1->updated_at = Carbon::now();
 
-        $gladiator1->arena = -1;
+        $gladiator1->arena = $dataArena['arena'];
 
 
         DB::table('arenaInfo')->insert((array) $gladiator1);

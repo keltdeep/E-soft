@@ -32,10 +32,10 @@
                                         <td>Доход в день</td>
                                         <td>{{round($gladiator['rate'], 2)}}</td>
                                     </tr>
-                                    <tr>
-                                        <td>Вероятность смерти</td>
-                                        <td>{{round($gladiator['thePossibilityOfDeath'], 2)}}</td>
-                                    </tr>
+{{--                                    <tr>--}}
+{{--                                        <td>Вероятность смерти</td>--}}
+{{--                                        <td>{{round($gladiator['thePossibilityOfDeath'], 2)}}</td>--}}
+{{--                                    </tr>--}}
                                     </tbody>
                                 </table>
                             </div>

@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/arena', 'GladiatorController@arena')->name('arena');
     Route::get('/arena', 'GladiatorController@arenaView')->name('arenaView');
     Route::get('/lastArena', 'GladiatorController@lastArena')->name('lastArena');
+    Route::get('/cemetery', 'GladiatorController@cemeteryView')->name('cemeteryView');
 
 });
 
