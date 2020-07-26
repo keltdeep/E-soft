@@ -2,6 +2,12 @@
 
 
 @section('content')
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {{$gladiators->links()}}
+        </ul>
+    </nav>
+
     <div class="container">
         <div class="row justify-content-center">
             {{--        <div class="col-md-12">--}}
@@ -37,10 +43,6 @@
                                     <td>Доход в день</td>
                                     <td>{{round($value->rate, 2)}}</td>
                                 </tr>
-{{--                                <tr>--}}
-{{--                                    <td>Вероятность смерти</td>--}}
-{{--                                    <td>{{round($value->thePossibilityOfDeath, 2)}}</td>--}}
-{{--                                </tr>--}}
                                 </tbody>
                             </table>
                         </div>
@@ -64,7 +66,7 @@
                 </div>
             @endforeach
 
-            {{$gladiators->links()}}
+
         </div>
     </div>
 @endsection

@@ -1,57 +1,61 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Ваш Лудус</div>
 
-                @csrf
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-{{--                        <form method="POST" action="/home" enctype='multipart/form-data'>--}}
-
-{{--                            <input type="hidden" value="{!! csrf_token() !!}" name="_token">--}}
-{{--                            <div class="custom-file">--}}
-{{--                                <input type="file"--}}
-{{--                                       class="custom-file-input"--}}
-{{--                                       id="inputGroupFile01"--}}
-{{--                                       name="image"--}}
-{{--                                       aria-describedby="inputGroupFileAddon01">--}}
-{{--                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>--}}
-{{--                            </div>--}}
-{{--                            <div>--}}
-{{--                                <button type="submit">add foto</button>--}}
-{{--                            </div>--}}
-{{--                        </form>--}}
-<div>
-                        <img src="{{$user->image}}" class="card-img-top" alt="image">
-</div>
-                        @if ($user->administration === true)
-                            <div><a href='slave/create' class="btn">create slave</a></div>
-                            <div><a href='gladiator/create' class="btn">create gladiator</a></div>
-                            <div><a href="updatingIndicators" class="btn">updating indicators</a></div>
+                    @csrf
 
 
+                    <div class="card" style="width: 15rem;">
+                        @if(isset($user->image))
+                            <img class="card-img-top" src="{{$user->image}}" alt="">
                         @endif
-
-                       {{$user->name}}
-
-
-                        <div>Money =  {{round($user->money, 2)}}</div>
-                       <div>Rating = {{round($user->rating, 2)}}</div>
-
-                    ПРАВИЛА, АВКА,
+                        <div class="card-body">
+                            <h5 class="card-title">{{$user->name}}</h5>
+                            <table style="width: 100%">
+                                <tbody>
+                                <tr>
+                                    <td>Деньги</td>
+                                    <td>{{round($user->money, 2)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Рейтинг</td>
+                                    <td>{{round($user->rating, 2)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Доход в день</td>
+                                    <td>{{round($data, 2)}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
+            @if ($user->administration === true)
+                <div class="card">
+                    <div class="card-header">Меню Администратора</div>
+                    <table style="width: 100%">
+                        <tbody>
+                        <tr>
+                            <td><a class="stretched-link" href='slave/create' class="btn">Создание рабынь</a></td>
+                        </tr>
+                        <tr>
+                            <td><a class="stretched-link" href='gladiator/create' class="btn">Создание Гладиаторов</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a class="stretched-link" href="updatingIndicators" class="btn">Обновление Рейтинга и
+                                    дневного дохода</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            @endif
         </div>
     </div>
-</div>
 @endsection

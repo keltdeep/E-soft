@@ -2,6 +2,13 @@
 
 
 @section('content')
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {{$gladiators->links()}}
+        </ul>
+    </nav>
+
+
     <div class="container">
         <div class="row justify-content-center">
             @csrf
@@ -103,5 +110,5 @@
 
 
 
-    {{$gladiators->links()}}
+
 @endsection

@@ -2,6 +2,13 @@
 
 
 @section('content')
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {{$slaves->links()}}
+        </ul>
+    </nav>
+
     <div class="container">
         <div class="row justify-content-center">
 
@@ -56,7 +63,7 @@
                             @endif
                         @endforeach
 
-                        {{$slaves->links()}}
+
         </div>
     </div>
 @endsection

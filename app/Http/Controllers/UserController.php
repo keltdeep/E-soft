@@ -91,6 +91,33 @@ class UserController extends Controller
 
             }
         }
+        $users = DB::table('users')
+            ->orderByDesc('rating')
+            ->get();
+
+        foreach ($users as $key => $value) {
+
+            for($i = 0; $i < 3; $i++) {
+                if($i === 0 && $i === $key) {
+
+                    $userMoney['money'] = $value->money + 8;
+                    User::getUser($value->id)->update($userMoney);
+                }
+                if($i === 1 && $i === $key) {
+
+                    $userMoney['money'] = $value->money + 5;
+                    User::getUser($value->id)->update($userMoney);
+                }
+                if($i === 2 && $i === $key) {
+
+                    $userMoney['money'] = $value->money + 3;
+                    User::getUser($value->id)->update($userMoney);
+                }
+            }
+
+        }
+
+
         return redirect()->route('home');
     }
 

@@ -135,6 +135,7 @@
     .card {
         margin: 10px;
     }
+
 </style>
 
 </body>

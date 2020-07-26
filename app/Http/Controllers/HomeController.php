@@ -28,10 +28,39 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $value = Session::all();
-        $id = $value['login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d'];
-        $user = User::query()->findOrFail($id);
+        $user = User::currentUser();
 
-        return view('home', compact('user'));
+//        $value = Session::all();
+//        $id = $value['login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d'];
+//
+//
+//        $user = User::query()->findOrFail($id);
+//
+//        var_dump($user->value('name'));
+//        die();
+        $gladiatorsRate = DB::table('gladiators')
+            ->where([['master', $user->id], ['arena', '=', null]])
+            ->orWhere([['master', $user->id], ['arena', '!=', '-1']])
+            ->get('rate');
+
+
+        $slavesRate = DB::table('slaves')
+            ->where('master', $user->id)
+            ->get('dailyExpenses');
+
+        $dataGladiators = [];
+
+        for ($i = 0; $i < count($gladiatorsRate); $i++) {
+                array_push($dataGladiators, $gladiatorsRate[$i]->rate);
+    }
+            $dataSlaves = [];
+
+            for ($i = 0; $i < count($slavesRate); $i++) {
+                    array_push($dataSlaves, $slavesRate[$i]->dailyExpenses);
+            }
+
+            $data = array_sum($dataGladiators) - array_sum($dataSlaves);
+
+        return view('home', compact('user', 'data'));
     }
 }

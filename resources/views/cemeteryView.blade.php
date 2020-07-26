@@ -2,6 +2,12 @@
 
 
 @section('content')
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {{$deadGladiators->links()}}
+        </ul>
+    </nav>
+
     <div class="container">
         <div class="row justify-content-center">
             {{--        <div class="col-md-12">--}}
@@ -65,7 +71,8 @@
                 </div>
             @endforeach
 
-            {{$deadGladiators->links()}}
+
         </div>
     </div>
+
 @endsection
