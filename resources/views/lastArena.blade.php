@@ -49,13 +49,22 @@
                                     @if ($i == 0 && $i == $key)
 
                                 <td>{{$value->cost * 0.2 + $i + 6}}</td>
+                                        <tr>
+                                        <td>Победитель</td>
+                                         </tr>
                                         @endif
                                     @if ($i == 1 && $i == $key)
                                             <td>{{$value->cost * 0.2 + $i + 2}}</td>
+                                            <tr>
+                                            <td>Проиграл в финале</td>
+                                            </tr>
                                     @endif
                                     @if($i > 1 && $i == $key)
                                         <td>{{$value->cost * 0.2}}</td>
-                                    @endif
+                                        <tr>
+                                            <td>Проигравший</td>
+                                        </tr>
+                                        @endif
                                     @endfor
                             </tr>
                             <tr>
