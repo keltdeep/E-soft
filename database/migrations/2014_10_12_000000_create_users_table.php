@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('image')->nullable();
+            $table->string('image')->default('/uploads/c847fb09543b307fbc83a1cd2ea321b7af035e75.png');
             $table->float('money')->default(20);
             $table->float('rating')->default(0);
             $table->rememberToken();

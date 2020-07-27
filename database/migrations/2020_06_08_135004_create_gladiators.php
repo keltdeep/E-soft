@@ -23,7 +23,7 @@ class CreateGladiators extends Migration
             $table->integer('heals')->notnull();
             $table->float('cost')->notnull();
             $table->float('rate')->notnull();
-            $table->string('image')->nullable();
+            $table->string('image')->default('/uploads/c847fb09543b307fbc83a1cd2ea321b7af035e75.png');
             $table->string('master')->nullable();
             $table->string('seller')->nullable();
             $table->string('arena')->nullable();

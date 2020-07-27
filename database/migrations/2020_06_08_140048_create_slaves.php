@@ -21,7 +21,7 @@ class CreateSlaves extends Migration
             $table->float('cost')->notnull();
             $table->float('rateComfort')->notnull();
             $table->float('dailyExpenses')->notnull();
-            $table->string('image')->nullable();
+            $table->string('image')->default('/uploads/c847fb09543b307fbc83a1cd2ea321b7af035e75.png');
             $table->string('master')->nullable();
             $table->string('seller')->nullable();
             $table->timestamp('created_at')->useCurrent();

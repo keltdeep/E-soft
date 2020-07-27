@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Create Slave') }}</div>
+                    <div class="card-header">Создать рабыню</div>
 
                     <div class="card-body">
 
@@ -23,7 +23,7 @@
 
                         <form method="POST" action="/slave" enctype='multipart/form-data'>
                             <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                                <label for="name" class="col-md-4 col-form-label text-md-right">Имя</label>
 
                                 <div class="col-md-6">
                                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
@@ -37,7 +37,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="agility" class="col-md-4 col-form-label text-md-right">{{ __('Agility') }}</label>
+                                <label for="agility" class="col-md-4 col-form-label text-md-right">Ловкость</label>
 
                                 <div class="col-md-6">
                                     <input id="agility" type="number" name="agility">
@@ -45,7 +45,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="intelligence" class="col-md-4 col-form-label text-md-right">{{ __('intelligence') }}</label>
+                                <label for="intelligence" class="col-md-4 col-form-label text-md-right">Интеллект</label>
 
                                 <div class="col-md-6">
                                     <input id="intelligence" type="number" name="intelligence">
@@ -61,10 +61,10 @@
                                                id="inputGroupFile01"
                                                name="image"
                                                aria-describedby="inputGroupFileAddon01">
-                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                        <label class="custom-file-label" for="inputGroupFile01">Выберите аватарку</label>
                                     </div>
                                     <button type="submit" class="btn btn-primary">
-                                        {{ __('Create') }}
+                                        Создать
                                     </button>
                                 </div>
                             </div>

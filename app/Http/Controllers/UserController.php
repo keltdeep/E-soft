@@ -188,7 +188,7 @@ class UserController extends Controller
     public function admRights () {
 
         $data =[];
-        if(isset($_POST['administration']) === true) {
+        if($_POST['administration'] == true) {
 
             $data['administration'] = true;
         } else {

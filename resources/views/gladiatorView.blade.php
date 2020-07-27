@@ -7,7 +7,7 @@
 
                                                 @csrf
 
-                        <div class="card" style="width: 15rem;">
+                        <div class="card" style="width: 18rem;">
                             @if(isset($gladiator['image']))
                                 <img class="card-img-top" src="{{$gladiator['image']}}" alt="">
                             @endif

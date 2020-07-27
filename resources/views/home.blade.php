@@ -42,15 +42,20 @@
                     <table style="width: 100%">
                         <tbody>
                         <tr>
-                            <td><a class="stretched-link" href='slave/create' class="btn">Создание рабынь</a></td>
-                        </tr>
-                        <tr>
-                            <td><a class="stretched-link" href='gladiator/create' class="btn">Создание Гладиаторов</a>
+                            <td>
+                                <a class="nav-link" href='slave/create'>Создание рабынь</a>
                             </td>
                         </tr>
                         <tr>
-                            <td><a class="stretched-link" href="updatingIndicators" class="btn">Обновление Рейтинга и
-                                    дневного дохода</a></td>
+                            <td>
+                                <a class="nav-link" href='gladiator/create'>Создание гладиаторов</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a class="nav-link" href='updatingIndicators'>Обновление Рейтинга и
+                                    дневного дохода</a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

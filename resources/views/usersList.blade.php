@@ -38,23 +38,33 @@
                                 <div class="form-check">
                                 <input type="hidden" value="{!! csrf_token() !!}" name="_token">
                                 <input id="id" type="hidden" name="id" class="form-control" value="{{$value->id}}">
+                                    @if($value->administration)
+                                <input id="administration" type="hidden" name="administration" class="form-control" value="false">
 
-                                    <label class="form-check-label" for="exampleCheck1"></label>
-                                    <input id="exampleCheck1"
-                                           class="form-check-input"
-                                           type="checkbox"
-                                           name="administration"
-                                           @if($value->administration)
-                                           checked
-                                    @endif
-                                    >
-
-                                </div>
                                 <div>
-                                    <button class="btn btn-primary" type="submit">Сделать администратором</button>
+                                    <button class="btn btn-primary" type="submit">Забрать права администратора</button>
+                                </div>
+                                @else
+                                    <input id="administration" type="hidden" name="administration" class="form-control" value="true">
+
+                <div>
+                    <button class="btn btn-primary" type="submit">Сделать Администратором</button>
+                </div>
+                                @endif
+
+{{--                                    <label class="form-check-label" for="exampleCheck1"></label>--}}
+{{--                                    <input id="exampleCheck1"--}}
+{{--                                           class="form-check-input"--}}
+{{--                                           type="checkbox"--}}
+{{--                                           name="administration"--}}
+{{--                                           @if($value->administration)--}}
+{{--                                           checked--}}
+{{--                                    @endif--}}
+{{--                                    >--}}
+
                                 </div>
                             </form>
-                    @endif
+                        @endif
                 </div>
             @endforeach
         </div>

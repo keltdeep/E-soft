@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Create Gladiator') }}</div>
+                <div class="card-header">Создание Гладиатора</div>
 
                 <div class="card-body">
 
@@ -23,7 +23,7 @@
 
                     <form method="POST" action="/gladiator" enctype='multipart/form-data'>
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">Имя</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
@@ -37,7 +37,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="strength" class="col-md-4 col-form-label text-md-right">{{ __('strength') }}</label>
+                            <label for="strength" class="col-md-4 col-form-label text-md-right">Сила</label>
 
                             <div class="col-md-6">
                                 <input id="strength" type="number" name="strength">
@@ -45,7 +45,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="agility" class="col-md-4 col-form-label text-md-right">{{ __('Agility') }}</label>
+                            <label for="agility" class="col-md-4 col-form-label text-md-right">Ловкость</label>
 
                             <div class="col-md-6">
                                 <input id="agility" type="number" name="agility">
@@ -53,7 +53,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="heals" class="col-md-4 col-form-label text-md-right">{{ __('Heals') }}</label>
+                            <label for="heals" class="col-md-4 col-form-label text-md-right">Здоровье</label>
 
                             <div class="col-md-6">
                                 <input id="heals" type="number" name="heals">
@@ -69,11 +69,11 @@
                                            id="inputGroupFile01"
                                            name="image"
                                            aria-describedby="inputGroupFileAddon01">
-                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                    <label class="custom-file-label" for="inputGroupFile01">Выберите файл</label>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Create') }}
+                                    Создать
                                 </button>
                             </div>
                         </div>
