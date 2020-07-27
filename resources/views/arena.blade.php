@@ -29,7 +29,7 @@
                                 </tr>
                                 <tr>
                                     <td>Здоровье</td>
-                                    <td>{{$value->strength}}</td>
+                                    <td>{{$value->heals}}</td>
                                 </tr>
                                 <tr>
                                     <td>Доход в день</td>
