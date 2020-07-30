@@ -63,4 +63,7 @@ class HomeController extends Controller
 
         return view('home', compact('user', 'data'));
     }
+    public function description () {
+        return view('description');
+    }
 }

@@ -80,6 +80,9 @@
                         <li class="nav-item {{ request()->is('sendInvite') ? 'active' : '' }}">
                             <a class="nav-link" href="/sendInvite">Пригласить друга</a>
                         </li>
+                        <li class="nav-item {{ request()->is('description') ? 'active' : '' }}">
+                            <a class="nav-link" href="/">Описание</a>
+                        </li>
                         <li class="nav-item dropdown profile {{ request()->is('profile') ? 'active' : '' }}">
                             <a class="nav-link" href="#" role="button" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">

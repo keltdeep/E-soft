@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('profile', 'UserController@update')->name('user.update');
     Route::get('users', 'UserController@usersList')->name('user.userList');
     Route::post('/users', 'UserController@admRights')->name('user.admRights');
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'HomeController@description')->name('description');
     Route::post('/sendInvite', 'OrderController@ship')->name('ship');
     Route::get('/sendInvite', 'OrderController@show')->name('showShip');
     Route::post('/arena', 'GladiatorController@arena')->name('arena');
