@@ -42,6 +42,8 @@
             </nav>
 
             <div class="container">
+                <h5 class="row justify-content-center">Список Лудусов по Рейтингу</h5>
+
                 <div class="row justify-content-center">
                     {{--                    <div class="col-md-12">--}}
 
