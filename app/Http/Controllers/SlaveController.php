@@ -74,7 +74,7 @@ class SlaveController extends Controller
     {
 
         $request->validate([
-            'name' => 'string',
+            'name' => 'string|unique:slaves',
             'agility' => 'numeric|between:1,10',
             'intelligence' => 'numeric|between:1,10',
             'image' => 'image'
