@@ -181,19 +181,131 @@ class UserController extends Controller
 
         $currentUser = User::currentUser();
 
-        return view('usersList', compact(['users', 'currentUser']));
+        $countWinners = [];
+        for ($i = 0; $i < 1000; $i++) {
+
+        $gladiators = DB::table('arenaInfo')
+            ->orderByDesc('updated_at')
+            ->limit(1000)
+            ->get();
+        $gladiators[$i] = (array) $gladiators[$i];
+        $gladiatorsCount = count($gladiators);
+
+        array_push($countWinners, $gladiators[$i]);
+
+
+           if($i + 3 < $gladiatorsCount - 1){
+               $i = $i + 3;
+           }
+           else {
+
+                $dataName = [];
+                foreach ($countWinners as $key => $value) {
+                    array_push($dataName, $value['name']);
+                }
+//               sort($countWinners);
+               $keyCount = count($dataName);
+               sort($dataName);
+
+               $data = [];
+               foreach ($dataName as $key => $value) {
+                   if($key + 1 < $keyCount) {
+                       if ($value == $dataName[$key + 1]) {
+                           array_push($data, $value);
+                       }
+
+                       array_count_values($data);
+                       sort($data, SORT_REGULAR);
+                   }
+
+
+//                foreach ($dataName as $key => $value) {
+//                    if($key + 1 < $keyCount) {
+//                        if ($value['id'] == $dataName[$key + 1]['id']) {
+//                            array_push($data, $value['id']);
+//                        }
+//                        sort($data, SORT_REGULAR);
+//                    }
+
+
+                                    }
+               $data = array_count_values($data);
+               $dataCount = count($data);
+
+               arsort($data);
+
+               $champions = [];
+               $win = null;
+
+               foreach ($data as $key => $value) {
+                    if($win == null) {
+                        $win = $value;
+                    }
+                   if($value === $win) {
+
+                       array_push($champions, $key);
+
+                   }
+
+
+//                   array_push($champions, $key);
+//                   $last = $value;
+
+
+
+
+
+
+
+//                   if ($key + 1 < $dataCount && $dataCount != 0) {
+//                       if ($value > $data[$key + 1]) {
+//                           $champion = DB::table('gladiators')->where('name', $key)->get();
+//                           $champion['win'] = $value + 1;
+//                           return view('usersList', compact(['users', 'currentUser', 'countWinners', 'champion']));
+//                           var_dump($champion);
+//                           die();
+//                       }
+//
+//                       else {
+//                           $champions = [];
+//                           $firstWinner = DB::table('gladiators')->where('name', $key)->get();
+//                           array_push($champions, $firstWinner);
+//
+//                           for($i = 1; $i < $dataCount; $i++) {
+//                               if ($value == $data[$i]) {
+//                                   $champion = DB::table('gladiators')->where('name', $data[$i])->get();
+//
+//                                   array_push($champions, $champion);
+//                               }
+//                               return view('usersList', compact(['users', 'currentUser', 'countWinners', 'champions']));
+//
+//                           }
+//
+//                       }
+//
+//                       $champion = DB::table('gladiators')->where('name', $key)->get();
+//                       $champion['win'] = $value + 1;
+//                       return view('usersList', compact(['users', 'currentUser', 'countWinners', 'champion']));
+//                   }
+
+               }
+               $gladiators = [];
+               foreach ($champions as $champion) {
+                   $gladiator = DB::table('gladiators')->where('name', $champion)->get();
+                   array_push($gladiators, $gladiator);
+               }
+
+               return view('usersList', compact(['users', 'currentUser', 'gladiators', 'win']));
+           }
+        }
+        return view('usersList', compact(['users', 'currentUser', 'gladiators', 'win']));
+
     }
 
 
     public function admRights () {
 
-        $data =[];
-        if($_POST['administration'] == true) {
-
-            $data['administration'] = true;
-        } else {
-            $data['administration'] = false;
-        }
+        $data['administration'] = filter_var($_POST['administration'], FILTER_VALIDATE_BOOLEAN);
 
         User::getUser($_POST['id'])->update($data);
 

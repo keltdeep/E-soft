@@ -129,9 +129,9 @@ class SlaveController extends Controller
     {
 
         $slave = Slave::query()->findOrFail($id);
+        $user = User::currentUser();
 
-
-        return view('slaveView', compact('slave'));
+        return view('slaveView', compact(['slave', 'user']));
     }
 
 

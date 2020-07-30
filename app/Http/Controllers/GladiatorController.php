@@ -149,12 +149,12 @@ class GladiatorController extends Controller
     {
 
         $gladiator = Gladiator::query()->findOrFail($id);
-
+        $user = User::currentUser();
 //        $k = 1.1;
 //        $gladiator['thePossibilityOfDeath'] = 20 / ($gladiator['strength'] + $gladiator['agility'] + $gladiator['heals']) * $k;
 
 
-        return view('gladiatorView', compact('gladiator'));
+        return view('gladiatorView', compact(['gladiator', 'user']));
     }
 
 

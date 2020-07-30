@@ -44,7 +44,7 @@
                         {{round($slave['cost'], 2)}}
                     </div>
                 </div>
-                @if($slave['master'] !== null)
+                @if($slave['master'] == user->id)
                     <a href={{$slave['id']}}/edit class="btn">Тренировать</a>
                 @endif
             </div>

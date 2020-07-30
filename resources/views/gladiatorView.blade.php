@@ -48,7 +48,7 @@
                                         {{round($gladiator['cost'], 2)}}
                                     </div>
                                 </div>
-                                @if($gladiator['master'] !== null)
+                                @if($gladiator['master'] == $user->id)
                                 <a href={{$gladiator['id']}}/edit class="btn">Тренировать</a>
                                     @endif
                         </div>
