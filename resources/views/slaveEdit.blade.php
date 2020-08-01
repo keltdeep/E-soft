@@ -49,7 +49,7 @@
 
                                     <div>Стоимость Ловкости {{round($slave['costAgility'], 2)}}</div>
                                     <input id="costAgility" type="hidden" name="costAgility" class="form-control" value="{{round($slave['costAgility'], 2)}}">
-                                    <div>Стоимость Здоровья {{round($slave['costIntelligence'], 2)}}</div>
+                                    <div>Стоимость Интеллекта {{round($slave['costIntelligence'], 2)}}</div>
                                     <input id="costIntelligence" type="hidden" name="costIntelligence" class="form-control" value="{{round($slave['costIntelligence'], 2)}}">
                                     <div>Расход в день {{round($slave['dailyExpenses'], 2)}}</div>
                                     <div>Показатель Комфорта {{round($slave['rateComfort'], 2)}}</div>
