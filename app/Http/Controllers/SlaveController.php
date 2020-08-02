@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CustomException;
 use App\Image;
 use App\Slave;
 use App\User;
@@ -158,8 +159,21 @@ class SlaveController extends Controller
         $user = User::currentUser();
 
         $data = array();
+        try {
+            if ($_POST['agility'] + $slave->agility > 10
+                || $_POST['intelligence'] + $slave->intelligence > 10) {
 
-        $data['agility'] = User::updateAttributes($data, $_POST['agility'], $_POST['costAgility'], $slave->agility, $user);
+                throw new CustomException('Атрибуты не могут быть больше 10');
+
+            }
+        } catch (CustomException $exception) {
+            return view('errors.money', compact('exception'));
+
+        }
+
+
+            $data['agility'] = User::updateAttributes($data, $_POST['agility'], $_POST['costAgility'], $slave->agility, $user);
+
         $data['intelligence'] = User::updateAttributes($data, $_POST['intelligence'], $_POST['costIntelligence'], $slave->intelligence, $user);
 
 
@@ -183,15 +197,15 @@ class SlaveController extends Controller
         $user = User::getUser($idSession)->first();
         $slave = Slave::getSlave($id)->first();
 
-        if($slave->seller === $slave->master && $slave->master === null) {
+        if($slave->seller === $slave->master && $slave->master !== null) {
             $data['master'] = $idSession;
             $data['seller'] = null;
             Slave::getSlave($id)->update($data);
 
             return redirect()->route('slave.show', [$slave->id]);
         }
-
-        if ($user->money >= $slave->cost) {
+try {
+    if ($user->money >= $slave->cost) {
 
         $data['master'] = $idSession;
 
@@ -200,9 +214,15 @@ class SlaveController extends Controller
         $dataChange['money'] = $user->money - $slave->cost;
 
         User::getUser($idSession)->update($dataChange);
-    }   else {
-            print ('not enough money for buy');
-            die();
+    } else {
+
+        throw new CustomException('Недостаточно денег для совершения операции');
+
+    }
+}
+    catch (CustomException $exception) {
+
+        return view('errors.money', compact('exception'));
     }
 
         if ($slave->seller !== null) {

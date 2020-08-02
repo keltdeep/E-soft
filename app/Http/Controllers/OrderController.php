@@ -26,6 +26,7 @@ class OrderController extends Controller
 $request->validate([
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users']]);
 //        $toEmail = [];
+
         $comment = 'Приглашение в игру Spartacus';
 //        $toEmail['email']= $_POST['email'];
 
@@ -34,6 +35,7 @@ $request->validate([
                 return 'Сообщение отправлено на адрес '. $_POST['email'];
             }
             catch (\Exception $exception) {
+
                 return view('errors.custom', compact('exception'));
             }
 

@@ -31,7 +31,7 @@ class Image
         }
 
         // You should also check filesize here.
-        if ($image['size'] > 30000000) {
+        if ($image['size'] > 83000000) {
             throw new RuntimeException('Exceeded filesize limit.');
         }
 

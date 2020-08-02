@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Exceptions\CustomException;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -183,6 +184,18 @@ class GladiatorController extends Controller
         $data = array();
 
         $user = User::currentUser();
+        try {
+            if ($_POST['strength'] + $gladiator->strength > 10
+                || $_POST['agility'] + $gladiator->agility > 10
+                || $_POST['heals'] + $gladiator->heals > 10) {
+
+                throw new CustomException('Атрибуты не могут быть больше 10');
+
+            }
+        } catch (CustomException $exception) {
+            return view('errors.money', compact('exception'));
+
+        }
 
         $data['strength'] = User::updateAttributes($data, $_POST['strength'], $_POST['costStrength'], $gladiator->strength, $user);
         $data['agility'] = User::updateAttributes($data, $_POST['agility'], $_POST['costAgility'], $gladiator->agility, $user);
@@ -216,19 +229,27 @@ class GladiatorController extends Controller
             return redirect()->route('gladiator.show', [$gladiator->id]);
         }
 
+        try {
         if ($user->money >= $gladiator->cost) {
-            $data['master'] = $idSession;
 
-            Gladiator::getGladiator($id)->update($data);
+                $data['master'] = $idSession;
 
-            $dataChange['money'] = $user->money - $gladiator->cost;
+                Gladiator::getGladiator($id)->update($data);
 
-            User::getUser($idSession)->update($dataChange);
+                $dataChange['money'] = $user->money - $gladiator->cost;
+
+                User::getUser($idSession)->update($dataChange);
+
         } else {
-            print('not enough money for buy');
-            die();
-        }
 
+            throw new CustomException('Недостаточно денег для совершения операции');
+
+        }
+        }
+        catch (CustomException $exception) {
+
+            return view('errors.money', compact('exception'));
+        }
         if ($gladiator->seller !== null) {
 
             $user = User::getUser($gladiator->seller)->first();

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Exceptions\CustomException;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -67,27 +68,35 @@ class User extends Authenticatable
 
     }
 
-    public static function updateAttributes($data, $attribute, $attributeCost, $entityAttribute, $user) {
-        if ($attribute != 0 && !is_null( User::checkMoney($attributeCost))) {
 
-            $data = $attribute + $entityAttribute;
+    public static function updateAttributes($data, $attribute, $attributeCost, $entityAttribute, $user)
+    {
+//        try {
+            if ($attribute != 0 && !is_null(User::checkMoney($attributeCost))) {
 
-            $user->money = $user->money - $attributeCost;
-            $user = (array)$user;
+                    $data = $attribute + $entityAttribute;
 
-            User::getUser($user['id'])->update($user);
-            return $data;
 
-        }    else if ($attribute == 0) {
-            $data = $entityAttribute;
+                $user->money = $user->money - $attributeCost;
+                $user = (array)$user;
 
-            return $data;
-        }
-        else {
+                User::getUser($user['id'])->update($user);
+                return $data;
 
-            print('not enough money for update');
-            die();
-        }
+            } else if ($attribute == 0) {
+                $data = $entityAttribute;
+
+                return $data;
+            } else {
+
+                throw new CustomException('Недостаточно денег для совершения операции');
+
+            }
+//        }
+//        catch (CustomException $exception) {
+//
+//            return view('errors.money', compact('exception'));
+//        }
     }
 
 }

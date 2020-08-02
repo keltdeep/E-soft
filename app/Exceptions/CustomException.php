@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use http\Env\Request;
 
 class CustomException extends Exception
 {
@@ -23,8 +24,10 @@ class CustomException extends Exception
      */
     public function render($request)
     {
+
+
         return response()->view(
-            'errors.custom',
+            'errors.money',
             array(
                 'exception' => $this
             )
