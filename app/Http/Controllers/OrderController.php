@@ -34,7 +34,7 @@ $request->validate([
                 return 'Сообщение отправлено на адрес '. $_POST['email'];
             }
             catch (\Exception $exception) {
-                return view('errors.custom', $exception);
+                return view('errors.custom', compact('exception'));
             }
 
     }
