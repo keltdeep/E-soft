@@ -71,7 +71,6 @@ class User extends Authenticatable
 
     public static function updateAttributes($data, $attribute, $attributeCost, $entityAttribute, $user)
     {
-//        try {
             if ($attribute != 0 && !is_null(User::checkMoney($attributeCost))) {
 
                     $data = $attribute + $entityAttribute;
@@ -87,16 +86,10 @@ class User extends Authenticatable
                 $data = $entityAttribute;
 
                 return $data;
-            } else {
-
-                throw new CustomException('Недостаточно денег для совершения операции');
-
             }
-//        }
-//        catch (CustomException $exception) {
-//
-//            return view('errors.money', compact('exception'));
-//        }
+            else {
+                return $data;
+            }
     }
 
 }
