@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CustomException;
 use App\Mail\OrderShipped;
 //use http\Env\Request;
 //use http\Client\Request;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 //use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Swift_TransportException;
 
 class OrderController extends Controller
 {
@@ -27,8 +29,13 @@ $request->validate([
         $comment = 'Приглашение в игру Spartacus';
 //        $toEmail['email']= $_POST['email'];
 
-        Mail::to($_POST['email'])->send(new OrderShipped($comment));
-        return 'Сообщение отправлено на адрес '. $_POST['email'];
+            try {
+                Mail::to($_POST['email'])->send(new OrderShipped($comment));
+                return 'Сообщение отправлено на адрес '. $_POST['email'];
+            }
+            catch (\Exception $exception) {
+                return view('errors.custom', $exception);
+            }
 
     }
 
