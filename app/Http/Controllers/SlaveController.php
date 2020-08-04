@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
+use JD\Cloudder\Facades\Cloudder;
 
 class SlaveController extends Controller
 {
@@ -96,12 +97,15 @@ class SlaveController extends Controller
 
         if (!$_FILES["image"]["error"] == UPLOAD_ERR_NO_FILE) {
 
-            $folder = $uploadFolder;
-            $file_path = Image::upload_image($_FILES["image"], $folder);
-            $file_path_exploded = explode("/", $file_path);
-            $filename = $file_path_exploded[count($file_path_exploded) - 1];
-//            $file_url = "//$serverName/uploads/" . $filename;
-            $slave["image"] = "/uploads/" . $filename;
+            Cloudder::upload($request->file('image'));
+            $cloundary_upload = Cloudder::getResult();
+            $slave["image"] = $cloundary_upload['url'];;
+//            $folder = $uploadFolder;
+//            $file_path = Image::upload_image($_FILES["image"], $folder);
+//            $file_path_exploded = explode("/", $file_path);
+//            $filename = $file_path_exploded[count($file_path_exploded) - 1];
+////            $file_url = "//$serverName/uploads/" . $filename;
+//            $slave["image"] = "/uploads/" . $filename;
         }
 
 

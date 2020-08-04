@@ -57,7 +57,7 @@ class Image
             throw new RuntimeException('Failed to move uploaded file.');
         }
 
-        return $filename;
+        return true;
     }
 
 }

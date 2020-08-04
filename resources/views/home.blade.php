@@ -12,7 +12,8 @@
 
 
                     <div class="card" style="width: 15rem;">
-                        @if(isset($user->image))
+
+                    @if(isset($user->image))
                             <img class="card-img-top" src="{{$user->image}}" alt="">
                         @endif
                         <div class="card-body">

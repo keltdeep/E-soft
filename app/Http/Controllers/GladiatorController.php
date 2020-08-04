@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use App\Image;
 use Illuminate\Validation\ValidationException;
+use JD\Cloudder\Facades\Cloudder;
 use mysql_xdevapi\Table;
 
 
@@ -105,8 +106,8 @@ class GladiatorController extends Controller
             'image' => 'image'
         ]);
 
-        $documentRoot = $_SERVER["DOCUMENT_ROOT"];
-        $uploadFolder = $documentRoot . '/uploads';
+//        $documentRoot = $_SERVER["DOCUMENT_ROOT"];
+//        $uploadFolder = $documentRoot . '/uploads';
 
         $gladiator['name'] = filter_var($_POST['name']);
         $gladiator['strength'] = filter_var($_POST['strength'], FILTER_VALIDATE_INT);
@@ -116,13 +117,25 @@ class GladiatorController extends Controller
 
         if (!$_FILES["image"]["error"] == UPLOAD_ERR_NO_FILE) {
 
-            $folder = $uploadFolder;
-            $file_path = Image::upload_image($_FILES["image"], $folder);
-            $file_path_exploded = explode("/", $file_path);
-            $filename = $file_path_exploded[count($file_path_exploded) - 1];
+//            $folder = $uploadFolder;
+
+
+//            if(Image::upload_image($_FILES["image"], $folder) === true) {
+
+//            $file_path_exploded = explode("/", $file_path);
+//            $filename = $file_path_exploded[count($file_path_exploded) - 1];
 //            $file_url = "//$serverName/uploads/" . $filename;
-            $gladiator["image"] = "/uploads/" . $filename;;
-        }
+
+
+//                var_dump($request->file('image'));
+//                die();
+            Cloudder::upload($request->file('image'));
+            $cloundary_upload = Cloudder::getResult();
+            $gladiator["image"] = $cloundary_upload['url'];;
+//            var_dump($gladiator["image"]);
+//            die();
+            }
+//        }
 
         $k = 1.1;
 
