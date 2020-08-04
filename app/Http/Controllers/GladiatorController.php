@@ -119,21 +119,16 @@ class GladiatorController extends Controller
 
 //            $folder = $uploadFolder;
 
-
 //            if(Image::upload_image($_FILES["image"], $folder) === true) {
 
 //            $file_path_exploded = explode("/", $file_path);
 //            $filename = $file_path_exploded[count($file_path_exploded) - 1];
 //            $file_url = "//$serverName/uploads/" . $filename;
 
-
-//                var_dump($request->file('image'));
-//                die();
             Cloudder::upload($request->file('image'));
             $cloundary_upload = Cloudder::getResult();
-            $gladiator["image"] = $cloundary_upload['url'];;
-//            var_dump($gladiator["image"]);
-//            die();
+            $gladiator["image"] = $cloundary_upload['url'];
+
             }
 //        }
 

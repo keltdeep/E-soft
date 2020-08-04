@@ -12,26 +12,31 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
+use JD\Cloudder\Facades\Cloudder;
 
 class UserController extends Controller
 {
-    public function userImage()
+    public function userImage(Request $request)
     {
 
 //        $serverName = $_SERVER["HTTP_HOST"];
-        $documentRoot = $_SERVER["DOCUMENT_ROOT"];
-        $uploadFolder = $documentRoot . '/uploads';
+//        $documentRoot = $_SERVER["DOCUMENT_ROOT"];
+//        $uploadFolder = $documentRoot . '/uploads';
 
         $data = array();
 
         if (!$_FILES["image"]["error"] == UPLOAD_ERR_NO_FILE) {
 
-            $folder = $uploadFolder;
-            $file_path = Image::upload_image($_FILES["image"], $folder);
-            $file_path_exploded = explode("/", $file_path);
-            $filename = $file_path_exploded[count($file_path_exploded) - 1];
-//            $file_url = "//$serverName/uploads/" . $filename;
-            $data["image"] = "/uploads/" . $filename;
+            Cloudder::upload($request->file('image'));
+            $cloundary_upload = Cloudder::getResult();
+            $gladiator["image"] = $cloundary_upload['url'];
+
+//            $folder = $uploadFolder;
+//            $file_path = Image::upload_image($_FILES["image"], $folder);
+//            $file_path_exploded = explode("/", $file_path);
+//            $filename = $file_path_exploded[count($file_path_exploded) - 1];
+////            $file_url = "//$serverName/uploads/" . $filename;
+//            $data["image"] = "/uploads/" . $filename;
         }
 
         $value = Session::all();
@@ -154,17 +159,22 @@ class UserController extends Controller
                 $data['password'] = HASH::make(filter_var($_POST['password']));
             }
 
-        $documentRoot = $_SERVER["DOCUMENT_ROOT"];
-        $uploadFolder = $documentRoot . '/uploads';
+//        $documentRoot = $_SERVER["DOCUMENT_ROOT"];
+//        $uploadFolder = $documentRoot . '/uploads';
 
         if (!$_FILES["image"]["error"] == UPLOAD_ERR_NO_FILE) {
 
-            $folder = $uploadFolder;
-            $file_path = Image::upload_image($_FILES["image"], $folder);
-            $file_path_exploded = explode("/", $file_path);
-            $filename = $file_path_exploded[count($file_path_exploded) - 1];
+
+            Cloudder::upload($request->file('image'));
+            $cloundary_upload = Cloudder::getResult();
+            $data["image"] = $cloundary_upload['url'];
+
+//            $folder = $uploadFolder;
+//            $file_path = Image::upload_image($_FILES["image"], $folder);
+//            $file_path_exploded = explode("/", $file_path);
+//            $filename = $file_path_exploded[count($file_path_exploded) - 1];
 //            $file_url = "//$serverName/uploads/" . $filename;
-            $data["image"] = "/uploads/" . $filename;
+//            $data["image"] = "/uploads/" . $filename;
         }
 
         User::getUser($id)->update($data);

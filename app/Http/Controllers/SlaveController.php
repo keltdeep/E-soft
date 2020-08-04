@@ -83,8 +83,8 @@ class SlaveController extends Controller
         ]);
 
 //        $serverName = $_SERVER["HTTP_HOST"];
-        $documentRoot = $_SERVER["DOCUMENT_ROOT"];
-        $uploadFolder = $documentRoot . '/uploads';
+//        $documentRoot = $_SERVER["DOCUMENT_ROOT"];
+//        $uploadFolder = $documentRoot . '/uploads';
 
         $k = 1.8;
 
