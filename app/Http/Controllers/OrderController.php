@@ -57,7 +57,7 @@ $request->validate([
 
 
 //        try {
-            Mail::to('keltdeep2@yandex.ru')->send(new OrderShipped($comment));
+            Mail::to($_POST['email'])->send(new OrderShipped($comment));
             return 'Сообщение отправлено в тех. поддержку';
 //        }
 //        catch (\Exception $exception) {
