@@ -64,28 +64,28 @@
                                 <button>Умер</button>
                             @else
 
-                                <form method="GET" action="gladiator/sell/{{$value->id}}">
+                                <form method="GET" action="gladiator/sell/{{$value->id}}" style="margin-left: 2px">
                                     <input id="id" type="hidden" name="id" class="form-control" value="{{$value->id}}">
-                                    <button type="submit">Продать</button>
+                                    <button class="btn btn-primary" type="submit">Продать</button>
                                 </form>
 
                                 @if($value->arena !== null)
-                                    <form method="POST" action="arena">
+                                    <form method="POST" action="arena" style="margin-left: 2px">
                                         <input type="hidden" value="{!! csrf_token() !!}" name="_token">
                                         <input id="id" type="hidden" name="id" class="form-control"
                                                value="{{$value->id}}">
                                         <input id="arena" type="hidden" name="arena" class="form-control"
                                                value="{{$value->arena = null}}">
-                                        <button type="submit">Снять с арены</button>
+                                        <button class="btn btn-primary" type="submit">Снять с арены</button>
                                     </form>
                                 @else
-                                    <form method="POST" action="arena">
+                                    <form method="POST" action="arena" style="margin-left: 2px">
                                         <input type="hidden" value="{!! csrf_token() !!}" name="_token">
                                         <input id="id" type="hidden" name="id" class="form-control"
                                                value="{{$value->id}}">
                                         <input id="arena" type="hidden" name="arena" class="form-control"
                                                value="{{$value->arena = $value->master}}">
-                                        <button type="submit">Отправить на арену</button>
+                                        <button class="btn btn-primary" type="submit">Отправить на арену</button>
                                     </form>
                                 @endif
 
@@ -94,7 +94,7 @@
                             @if($value->arena != -1)
 
 
-                                <a href=/gladiator/{{$value->id}}/edit class="btn">Тренировка</a>
+                                <a href=/gladiator/{{$value->id}}/edit class="btn btn-primary">Тренировка</a>
 
                             @endif
 

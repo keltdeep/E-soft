@@ -52,13 +52,15 @@
                                                 </svg>
                                                 {{round($value->cost, 2)}}
                                             </div>
+
                                             <form method="GET" action="slave/sell/{{$value->id}}">
                                                 <label for="id"></label>
                                                 <input id="id" type="hidden" name="id" class="form-control" value="{{$value->id}}">
-                                                <button type="submit">Продать</button>
+                                                <button class="btn btn-primary" type="submit">Продать</button>
                                             </form>
+
                                         </div>
-                                         <a href=/slave/{{$value->id}}/edit class="btn">Тренировка</a>
+                                        <a href=/slave/{{$value->id}}/edit class="btn btn-primary">Тренировка</a>
                                 </div>
                             @endif
                         @endforeach

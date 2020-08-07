@@ -80,7 +80,7 @@
                                             <input id="administration" type="hidden" name="administration"
                                                    class="form-control" value="false">
 
-                                            <div>
+                                            <div style="margin-top: 10px">
                                                 <button class="btn btn-primary" type="submit">Забрать права
                                                     администратора
                                                 </button>
@@ -89,8 +89,8 @@
                                             <input id="administration" type="hidden" name="administration"
                                                    class="form-control" value="true">
 
-                                            <div>
-                                                <button class="btn btn-primary" type="submit">Сделать Администратором
+                                            <div style="margin-top: 10px">
+                                                <button  class="btn btn-primary" type="submit">Сделать Администратором
                                                 </button>
                                             </div>
                                         @endif
