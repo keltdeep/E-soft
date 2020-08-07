@@ -13,6 +13,6 @@
         </ul>
     </div><br />
 @endif
-<div>Сообщение от пользователя {{$login}}</div>
-<div>Текст: {{$message}}</div>
+<div>Сообщение от пользователя {{$login2}}</div>
+<div>Текст: {{$message2}}</div>
 @endsection
