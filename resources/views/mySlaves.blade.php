@@ -16,9 +16,9 @@
 
                         @foreach ($slaves as $key => $value)
                             @if($value->seller === null)
-                                <div class="card" style="width: 15rem;">
+                                <div class="card" style="width: 250px; height: 440px">
                                         @if(isset($value->image))
-                                            <img class="card-img-top" src="{{$value->image}}" alt="">
+                                            <img class="card-img-top" style="max-width: 100%; height: 40%" src="{{$value->image}}" alt="">
                                         @endif
 
                                         <div class="card-body">

@@ -13,9 +13,9 @@
 
 
             @foreach ($lastArenaGladiators as $key => $value)
-                <div class="card" style="width: 15rem;">
+                <div class="card" style="width: 240px; height: 480px">
                     @if(isset($value->image))
-                        <img class="card-img-top" src="{{$value->image}}" alt="">
+                        <img class="card-img-top" style="max-width: 100%; height: 38%" src="{{$value->image}}" alt="">
                     @endif
                     <div class="card-body">
                         <h5 class="card-title">{{$value->name}}</h5>
@@ -50,19 +50,19 @@
                                 @for($i = 0; $i <4; $i++)
                                     @if ($i == 0 && $i == $key)
 
-                                <td>{{$value->cost * 0.2 + $i + 6}}</td>
+                                <td>{{round($value->cost * 0.2 + $i + 6, 2)}}</td>
                                         <tr>
                                         <td>Победитель</td>
                                          </tr>
                                         @endif
                                     @if ($i == 1 && $i == $key)
-                                            <td>{{$value->cost * 0.2 + $i + 2}}</td>
+                                            <td>{{round($value->cost * 0.2 + $i + 2, 0)}}</td>
                                             <tr>
                                             <td>Проиграл в финале</td>
                                             </tr>
                                     @endif
                                     @if($i > 1 && $i == $key)
-                                        <td>{{$value->cost * 0.2}}</td>
+                                        <td>{{round($value->cost * 0.2, 2)}}</td>
                                         <tr>
                                             <td>Проигравший</td>
                                         </tr>

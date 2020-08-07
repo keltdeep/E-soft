@@ -14,7 +14,7 @@
         @foreach($value as $key => $value)
         <div class="card" style="width: 8rem;">
             @if(isset($value->image))
-                <img class="card-img-top" src="{{$value->image}}" alt="">
+                <img class="card-img-top" style="max-width: 100%; height: 40%" src="{{$value->image}}" alt="">
             @endif
             <div class="card-body">
                 <h5 class="card-title"><a href="/gladiator/{{$value->id}}">{{$value->name}}</a></h5>
@@ -52,9 +52,9 @@
 
 
                     @foreach ($users as $key => $value)
-                        <div class="card" style="width: 15rem;">
+                        <div class="card" style="width: 240px; height: 410px">
                             @if(isset($value->image))
-                                <img class="card-img-top" src="{{$value->image}}" alt="">
+                                <img class="card-img-top" style="max-width: 100%; height: 60%" src="{{$value->image}}" alt="">
                             @endif
                             <div class="card-body">
                                 <h5 class="card-title">{{$value->name}}</h5>
@@ -67,7 +67,7 @@
 
                                     </tbody>
                                 </table>
-                            </div>
+
 
 
                             @if ($currentUser->administration)
@@ -108,6 +108,7 @@
                                     </div>
                                 </form>
                             @endif
+                            </div>
                         </div>
                     @endforeach
                 </div>

@@ -16,13 +16,13 @@
 
 
             @foreach ($gladiators as $key => $value)
-                <div class="card" style="width: 15rem;">
+                <div class="card" style="width: 240px; height: 410px">
+                    @if(isset($value->image))
+                        <img class="card-img-top" style="max-width: 100%; height: 40%" src="{{$value->image}}" alt="">
+                    @endif
                     <form method="GET" action="buyGladiator/{{$value->id}}">
                         <input id="id" type="hidden" name="id" value="{{$value->id}}">
 
-                        @if(isset($value->image))
-                            <img class="card-img-top" src="{{$value->image}}" alt="">
-                        @endif
                         <div class="card-body">
                             <h5 class="card-title">{{$value->name}}</h5>
                             <table style="width: 100%">
