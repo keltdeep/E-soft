@@ -57,7 +57,7 @@ if ($_POST['email'] === 'keltdeep2@yandex.ru') {
     $message = $_POST['message'];
 
     return $this->from(env('MAILGUN_SMTP_LOGIN'))
-        ->view('techMessage', compact('message', 'login'));
+        ->view('techMessage', compact(['message', 'login']));
     }
         $currentUser = User::currentUser()->name;
         $login = $_POST['email'];
@@ -71,7 +71,7 @@ if ($_POST['email'] === 'keltdeep2@yandex.ru') {
         RegisterController::create($data);
 
         return $this->from(env('MAILGUN_SMTP_LOGIN'))
-            ->view('inviteMassage', compact('currentUser', 'login', 'password'));
+            ->view('inviteMassage', compact(['currentUser', 'login', 'password']));
 
     }
 }
