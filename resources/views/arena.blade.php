@@ -2,9 +2,12 @@
 
 
 @section('content')
-    <div>Добро пожаловать на Арену</div>
-    <div>Бой начнется когда наберется 4 участника</div>
+{{--    <div>Добро пожаловать на Арену</div>--}}
+{{--    <div>Бой начнется когда наберется 4 участника</div>--}}
     <div class="container">
+        <h5 class="row justify-content-center">Результаты последней Арены</h5>
+        <div class="row justify-content-center">Бой начнется когда наберется 4 участника</div>
+
         <div class="row justify-content-center">
 
             @csrf
@@ -59,7 +62,9 @@
     @endforeach
 
     </div>
+        <a class="row justify-content-center" href="/lastArena" class="btn">Результаты предыдущей Арены</a>
+
     </div>
-    <a href="/lastArena" class="btn">Результаты предыдущей Арены</a>
+{{--    <a href="/lastArena" class="btn">Результаты предыдущей Арены</a>--}}
 
 @endsection

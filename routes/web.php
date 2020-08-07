@@ -40,6 +40,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/arena', 'GladiatorController@arenaView')->name('arenaView');
     Route::get('/lastArena', 'GladiatorController@lastArena')->name('lastArena');
     Route::get('/cemetery', 'GladiatorController@cemeteryView')->name('cemeteryView');
+    Route::get('/tech', 'OrderController@techView')->name('techView');
+    Route::post('/tech', 'OrderController@tech')->name('tech');
 
 });
 

@@ -35,15 +35,15 @@
         </div>
 
     </div>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    {{$users->links()}}
-                </ul>
-            </nav>
+
 
             <div class="container">
                 <h5 class="row justify-content-center">Список Лудусов по Рейтингу</h5>
-
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {{$users->links()}}
+                    </ul>
+                </nav>
                 <div class="row justify-content-center">
                     {{--                    <div class="col-md-12">--}}
 

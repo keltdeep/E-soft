@@ -45,4 +45,25 @@ $request->validate([
         return view('sendInvite');
     }
 
+    public function techView() {
+        return view('tech');
+    }
+
+    public function tech(Request $request) {
+        $request->validate([
+            'message' => ['required', 'string']]);
+
+        $comment = $_POST['message'];
+
+        try {
+            Mail::to($_POST['email'])->send(new OrderShipped($comment));
+            return 'Сообщение отправлено в тех. поддержку';
+        }
+        catch (\Exception $exception) {
+
+            return view('errors.money', compact('exception'));
+        }
+
+    }
+
 }

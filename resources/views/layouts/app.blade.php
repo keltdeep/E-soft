@@ -83,6 +83,9 @@
                         <li class="nav-item {{ request()->is('description') ? 'active' : '' }}">
                             <a class="nav-link" href="/">Описание</a>
                         </li>
+                        <li class="nav-item {{ request()->is('description') ? 'active' : '' }}">
+                            <a class="nav-link" href="/tech">Тех. поддержка</a>
+                        </li>
                         <li class="nav-item dropdown profile {{ request()->is('profile') ? 'active' : '' }}">
                             <a class="nav-link" href="#" role="button" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">

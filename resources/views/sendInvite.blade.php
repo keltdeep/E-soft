@@ -19,8 +19,13 @@
 <form method = POST action="/sendInvite">
     @csrf
     {{csrf_field()}}
-    <label for="email">E-mail</label><input type="email" id="email" name="email">
+    <label for="email">E-mail</label>
+        <input type="email" id="email" name="email">
+
     <input type="hidden" value="{!! csrf_token() !!}" name="_token">
-    <button type="submit">Отправить приглашение</button>
+
+    <div>
+        <button type="submit">Отправить приглашение</button>
+    </div>
 </form>
 @endsection

@@ -2,8 +2,10 @@
 
 
 @section('content')
-    <div>Результаты Арены</div>
+{{--    <div></div>--}}
     <div class="container">
+        <h5 class="row justify-content-center">Результаты последней Арены</h5>
+
         <div class="row justify-content-center">
             {{--        <div class="col-md-12">--}}
 
