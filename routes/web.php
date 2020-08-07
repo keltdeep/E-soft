@@ -17,9 +17,9 @@ use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes(['verify'=> true]);
+Auth::routes();
 
-Route::group(['middleware' => 'auth', 'verified'], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/home', 'UserController@userImage');
     Route::get('/buyGladiator/{id}', 'GladiatorController@buy');
