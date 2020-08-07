@@ -5,7 +5,7 @@
 
 
     <div class="container">
-        <h5 class="row justify-content-center">Мои рабыни</h5>
+        <h5 class="row justify-content-center">Рынок рабынь</h5>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 {{$slaves->links()}}
