@@ -55,8 +55,7 @@ if ($_POST['email'] === 'keltdeep2@yandex.ru') {
 //    $currentUser = User::currentUser();
 //    $login = $currentUser->email;
     $message = $_POST['message'];
-    var_dump($message);
-    die();
+
 
     return $this->from(env('MAILGUN_SMTP_LOGIN'))
         ->view('techMessage', compact('message'));
