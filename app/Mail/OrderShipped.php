@@ -52,13 +52,12 @@ class OrderShipped extends Mailable
 //            'email' => 'unique:users,email|nullable',
 //        ]);
 if ($_POST['email'] === 'keltdeep2@yandex.ru') {
-//    $currentUser = User::currentUser();
-//    $login = $currentUser->email;
-//    $message = $_POST['message'];
+    $currentUser = User::currentUser();
+    $login = $currentUser->email;
+    $message = $_POST['message'];
 
-//    , compact('message')
     return $this->from(env('MAILGUN_SMTP_LOGIN'))
-        ->view('techMessage');
+        ->view('techMessage', compact('message', 'login'));
     }
         $currentUser = User::currentUser()->name;
         $login = $_POST['email'];
