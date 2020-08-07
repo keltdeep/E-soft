@@ -20,7 +20,7 @@
                 @csrf
                 {{csrf_field()}}
                 <input type="hidden" value="{!! csrf_token() !!}" name="_token">
-                <input type="hidden" value="keltdeep@gmail.com" name="email">
+                <input type="hidden" value="keltdeep2@yandex.ru" name="email">
           <div>
               <textarea autofocus placeholder="Ваше сообщение" required name="message"></textarea>
           </div>
