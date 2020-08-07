@@ -3,13 +3,15 @@
 
 @section('content')
     <div class="container">
+        <h5 class="row justify-content-center">Гладиатор {{$gladiator['name']}}</h5>
+
         <div class="row justify-content-center">
 
                                                 @csrf
 
-                        <div class="card" style="width: 18rem;">
+                        <div class="card" style="width: 240px; height: 410px">
                             @if(isset($gladiator['image']))
-                                <img class="card-img-top" src="{{$gladiator['image']}}" alt="">
+                                <img class="card-img-top" style="max-width: 100%; height: 40%" src="{{$gladiator['image']}}" alt="">
                             @endif
 
                             <div class="card-body">
@@ -49,7 +51,7 @@
                                     </div>
                                 </div>
                                 @if($gladiator['master'] == $user->id)
-                                <a href={{$gladiator['id']}}/edit class="btn">Тренировать</a>
+                                <a href={{$gladiator['id']}}/edit class="btn btn-primary">Тренировать</a>
                                     @endif
                         </div>
 

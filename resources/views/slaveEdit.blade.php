@@ -2,30 +2,33 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="card-header">Рабыня {{$slave['name']}}</div>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div><br/>
+        @endif
+        <h5 class="row justify-content-center">Рабыня {{$slave['name']}}</h5>
 
-                    <div class="card-body">
+        <div class="row justify-content-center">
+{{--            <div class="col-md-7">--}}
+{{--                <div class="card">--}}
+{{--                    <div class="card-header">Рабыня {{$slave['name']}}</div>--}}
+
+{{--                    <div class="card-body">--}}
 
                         @csrf
 
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div><br/>
-                        @endif
 
-                        <form method="POST" action="/slave/{{$slave['id']}}" enctype='multipart/form-data'>
-                            <div class="card" style="width: 18rem;">
-                                @if(isset($slave['image']))
-                                    <img class="card-img-top" src="{{$slave['image']}}" alt="">
-                                @endif
+            <div class="card" style="width: 300px; height: 450px">
+                @if(isset($slave['image']))
+                    <img class="card-img-top" style="max-width: 100%; height: 40%" src="{{$slave['image']}}" alt="">
+                @endif
+                        <form method="POST" action="/slave/{{$slave['id']}}" style="margin-top: 10px" enctype='multipart/form-data'>
+
                                 {{method_field('PATCH')}}
                                 {{ csrf_field() }}
 
@@ -46,7 +49,7 @@
                                         <input id="intelligence" type="number" name="intelligence" class="form-control" value="1">
                                     </div>
                                 </div>
-
+<div style="margin-left: 10px">
                                     <div>Стоимость Ловкости {{round($slave['costAgility'], 2)}}</div>
                                     <input id="costAgility" type="hidden" name="costAgility" class="form-control" value="{{round($slave['costAgility'], 2)}}">
                                     <div>Стоимость Интеллекта {{round($slave['costIntelligence'], 2)}}</div>
@@ -54,17 +57,15 @@
                                     <div>Расход в день {{round($slave['dailyExpenses'], 2)}}</div>
                                     <div>Показатель Комфорта {{round($slave['rateComfort'], 2)}}</div>
 
-
-
                                 <button type="submit" class="btn btn-primary">
                                     Тренировать
                                 </button>
-                            </div>
+</div>
                         </form>
-
-                    </div>
-                </div>
             </div>
-        </div>
-    </div>
+                    </div>
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 @endsection

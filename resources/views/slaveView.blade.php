@@ -3,13 +3,15 @@
 
 @section('content')
     <div class="container">
+        <h5 class="row justify-content-center">Рабыня {{$slave['name']}}</h5>
+
         <div class="row justify-content-center">
 
             @csrf
 
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 240px; height: 410px">
                 @if(isset($slave['image']))
-                    <img class="card-img-top" src="{{$slave['image']}}" alt="">
+                    <img class="card-img-top" style="max-width: 100%; height: 40%" src="{{$slave['image']}}" alt="">
                 @endif
 
                 <div class="card-body">
@@ -45,7 +47,7 @@
                     </div>
                 </div>
                 @if($slave['master'] == $user->id)
-                    <a href={{$slave['id']}}/edit class="btn">Тренировать</a>
+                    <a href={{$slave['id']}}/edit class="btn btn-primary">Тренировать</a>
                 @endif
             </div>
 
