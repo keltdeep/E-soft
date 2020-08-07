@@ -4,6 +4,8 @@ use App\Http\Controllers\GladiatorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
+//use Auth\VerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +17,9 @@ use Illuminate\Http\RedirectResponse;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes();
+Auth::routes(['verify'=> true]);
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth', 'verified'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/home', 'UserController@userImage');
     Route::get('/buyGladiator/{id}', 'GladiatorController@buy');
