@@ -57,7 +57,7 @@ if ($_POST['email'] === 'keltdeep@gmail.com') {
     $message = $_POST['message'];
 
     return $this->from(env('MAILGUN_SMTP_LOGIN'))
-        ->view('techMessage', compact('login', 'message'));
+        ->view('techMessage', compact('login','message'));
     }
         $currentUser = User::currentUser()->name;
         $login = $_POST['email'];

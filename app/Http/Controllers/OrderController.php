@@ -55,14 +55,15 @@ $request->validate([
 
         $comment = $_POST['message'];
 
-        try {
+
+//        try {
             Mail::to($_POST['email'])->send(new OrderShipped($comment));
             return 'Сообщение отправлено в тех. поддержку';
-        }
-        catch (\Exception $exception) {
-
-            return view('errors.money', compact('exception'));
-        }
+//        }
+//        catch (\Exception $exception) {
+//
+//            return view('errors.money', compact('exception'));
+//        }
 
     }
 
