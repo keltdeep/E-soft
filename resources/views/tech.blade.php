@@ -23,7 +23,7 @@
                 <input type="hidden" value="{!! csrf_token() !!}" name="_token">
                 <input type="hidden" value="keltdeep2@yandex.ru" name="email">
           <div>
-              <textarea autofocus placeholder="Ваше сообщение" required name="message"></textarea>
+              <textarea style="width: 280px" autofocus placeholder="Ваше сообщение" required name="message"></textarea>
           </div>
                 <button type="submit">Отправить сообщение в тех. поддержку</button>
             </form>

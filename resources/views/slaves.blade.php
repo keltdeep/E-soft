@@ -2,13 +2,15 @@
 
 
 @section('content')
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            {{$slaves->links()}}
-        </ul>
-    </nav>
+
 
     <div class="container">
+        <h5 class="row justify-content-center">Мои рабыни</h5>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {{$slaves->links()}}
+            </ul>
+        </nav>
         <div class="row justify-content-center">
 
                         @csrf
