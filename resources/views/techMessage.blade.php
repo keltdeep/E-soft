@@ -20,7 +20,7 @@
     </div><br />
 @endif
 <div>Сообщение от пользователя {{$userLogin}}</div>
-<div>Текст: {{userMessage}}</div>
+<div>Текст: {{$userMessage}}</div>
 
 </body>
 </html>
