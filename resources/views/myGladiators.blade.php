@@ -72,7 +72,7 @@
                                 </form>
 
                                 @if($value->arena !== null)
-                                    <form method="POST" action="arena" style="margin-left: 2px">
+                                    <form method="POST" action="arena" style="margin-left: 5px">
                                         <input type="hidden" value="{!! csrf_token() !!}" name="_token">
                                         <input id="id" type="hidden" name="id" class="form-control"
                                                value="{{$value->id}}">
@@ -81,7 +81,7 @@
                                         <button class="btn btn-primary" type="submit">Снять с арены</button>
                                     </form>
                                 @else
-                                    <form method="POST" action="arena" style="margin-left: 2px">
+                                    <form method="POST" action="arena" style="margin-left: 5px">
                                         <input type="hidden" value="{!! csrf_token() !!}" name="_token">
                                         <input id="id" type="hidden" name="id" class="form-control"
                                                value="{{$value->id}}">
