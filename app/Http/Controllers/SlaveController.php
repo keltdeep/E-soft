@@ -170,13 +170,18 @@ class SlaveController extends Controller
                 throw new CustomException('Атрибуты не могут быть больше 10');
 
             }
+            elseif (User::checkMoney($_POST['costAgility']) === false ||
+                User::checkMoney($_POST['costIntelligence']) === false) {
+
+                throw new CustomException('Недостаточно денег для совершения операции');
+
+            }
         } catch (CustomException $exception) {
             return view('errors.money', compact('exception'));
 
         }
 
-
-            $data['agility'] = User::updateAttributes($data, $_POST['agility'], $_POST['costAgility'], $slave->agility, $user);
+        $data['agility'] = User::updateAttributes($data, $_POST['agility'], $_POST['costAgility'], $slave->agility, $user);
 
         $data['intelligence'] = User::updateAttributes($data, $_POST['intelligence'], $_POST['costIntelligence'], $slave->intelligence, $user);
 

@@ -61,19 +61,21 @@ class User extends Authenticatable
        $user = self::currentUser();
 
        if ($user->money >= $attribute) {
+
            return $user;
        }
-
-       return null;
+        else {
+            return false;
+        }
 
     }
 
 
     public static function updateAttributes($data, $attribute, $attributeCost, $entityAttribute, $user)
     {
-            if ($attribute != 0 && !is_null(User::checkMoney($attributeCost))) {
+            if ($attribute != 0) {
 
-                    $data = $attribute + $entityAttribute;
+                $data = $attribute + $entityAttribute;
 
 
                 $user->money = $user->money - $attributeCost;
@@ -81,8 +83,10 @@ class User extends Authenticatable
 
                 User::getUser($user['id'])->update($user);
                 return $data;
+            }
 
-            } else if ($attribute == 0) {
+
+        else if ($attribute == 0) {
                 $data = $entityAttribute;
 
                 return $data;
@@ -90,6 +94,8 @@ class User extends Authenticatable
             else {
                 return $data;
             }
+
     }
+
 
 }
