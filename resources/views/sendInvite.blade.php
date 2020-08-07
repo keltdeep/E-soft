@@ -3,6 +3,8 @@
 
 @section('content')
     <div class="container">
+        <h5 class="row justify-content-center">Вы можете пригласить вашего друга в игру :)</h5>
+
         <div class="row justify-content-center">
             @csrf
 

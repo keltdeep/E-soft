@@ -3,6 +3,7 @@
 
 @section('content')
     <div class="container">
+            <h5 class="row justify-content-center">Напишите нам что-нибудь</h5>
         <div class="row justify-content-center">
             @csrf
 
