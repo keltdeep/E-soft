@@ -19,7 +19,7 @@
         </ul>
     </div><br />
 @endif
-<div>Сообщение от пользователя {{$login}}</div>
+{{--<div>Сообщение от пользователя {{$login}}</div>--}}
 <div>{{$message}}</div>
 
 </body>
