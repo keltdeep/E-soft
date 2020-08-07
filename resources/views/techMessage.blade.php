@@ -14,5 +14,5 @@
     </div><br />
 @endif
 <div>Сообщение от пользователя {{$login}}</div>
-<div>{{$message}}</div>
+<div>Текст: {{$message}}</div>
 @endsection
