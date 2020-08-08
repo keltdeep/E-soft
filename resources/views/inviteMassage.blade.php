@@ -20,7 +20,7 @@
     </div><br />
 @endif
 <div>Приглашаем вас принять участие в игре Спартак!</div>
-<div>Ссылка {{$server}}></div>
+<div>Ссылка {{$server}}</div>
 <div>Приглашение от {{$currentUser}}</div>
 <div>Ваш логин {{$login}}</div>
 <div>Ваш пароль {{$password}}</div>
