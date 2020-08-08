@@ -161,7 +161,7 @@ class SlaveController extends Controller
         $slave = Slave::getSlave($id)->first();
 
         $user = User::currentUser();
-
+        $dataCost = 0;
         $data = array();
         try {
             if ($_POST['agility'] + $slave->agility > 10
@@ -170,11 +170,21 @@ class SlaveController extends Controller
                 throw new CustomException('Атрибуты не могут быть больше 10');
 
             }
-            elseif (User::checkMoney($_POST['costAgility']) === false ||
-                User::checkMoney($_POST['costIntelligence']) === false) {
+            else {
 
-                throw new CustomException('Недостаточно денег для совершения операции');
+                if ($_POST['agility'] != 0 ) {
+                    $dataCost = $dataCost + $_POST['costAgility'];
 
+                }
+                if ($_POST['intelligence'] != 0 ) {
+                    $dataCost = $dataCost + $_POST['costIntelligence'];
+                }
+
+
+                if(User::checkMoney($dataCost) === false) {
+
+                    throw new CustomException('Недостаточно денег для совершения операции');
+                }
             }
         } catch (CustomException $exception) {
             return view('errors.money', compact('exception'));

@@ -190,7 +190,7 @@ class GladiatorController extends Controller
 
 
         $data = array();
-
+        $dataCost = 0;
         $user = User::currentUser();
         try {
             if ($_POST['strength'] + $gladiator->strength > 10
@@ -200,12 +200,25 @@ class GladiatorController extends Controller
                 throw new CustomException('Атрибуты не могут быть больше 10');
 
             }
-            elseif ( User::checkMoney($_POST['costStrength'] === false) ||
-            User::checkMoney($_POST['costAgility']) === false ||
-            User::checkMoney($_POST['costHeals']) === false) {
+            else {
 
-                throw new CustomException('Недостаточно денег для совершения операции');
+                if ($_POST['strength'] != 0 ) {
+                    $dataCost = $dataCost + $_POST['costStrength'];
 
+                }
+                if ($_POST['agility'] != 0 ) {
+                    $dataCost = $dataCost + $_POST['costAgility'];
+
+                }
+                if ($_POST['heals'] != 0 ) {
+                    $dataCost = $dataCost + $_POST['costHeals'];
+                }
+
+
+                if(User::checkMoney($dataCost) === false) {
+
+                    throw new CustomException('Недостаточно денег для совершения операции');
+                }
             }
         } catch (CustomException $exception) {
             return view('errors.money', compact('exception'));
