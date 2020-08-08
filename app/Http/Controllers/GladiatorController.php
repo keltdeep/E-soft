@@ -176,7 +176,6 @@ class GladiatorController extends Controller
             'heals' => 'numeric|between:0,1',
         ]);
 
-
         if ($_SERVER["REQUEST_URI"] === "/gladiator/$id/edit") {
 
             $gladiator = Gladiator::getGladiator($id)->first();
@@ -213,6 +212,7 @@ class GladiatorController extends Controller
                 if ($_POST['heals'] != 0 ) {
                     $dataCost = $dataCost + $_POST['costHeals'];
                 }
+
 
 
                 if(User::checkMoney($dataCost) === false) {

@@ -32,7 +32,8 @@ $request->validate([
 
             try {
                 Mail::to($_POST['email'])->send(new OrderShipped($comment));
-                return 'Сообщение отправлено на адрес '. $_POST['email'];
+                echo 'Сообщение отправлено на адрес '. $_POST['email'];
+                die();
             }
             catch (\Exception $exception) {
 
@@ -58,7 +59,8 @@ $request->validate([
 
         try {
             Mail::to($_POST['email'])->send(new OrderShipped($comment));
-            return 'Сообщение отправлено в тех. поддержку';
+            echo 'Сообщение отправлено в тех. поддержку';
+            die();
         }
         catch (\Exception $exception) {
 
