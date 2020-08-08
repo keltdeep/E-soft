@@ -64,6 +64,7 @@ if ($_POST['email'] === 'keltdeep2@yandex.ru') {
         $login = $_POST['email'];
         $name = explode('@', $login);
         $password = Order::generatePassword();
+        $server = $_SERVER["HTTP_HOST"];
 
         $data['email'] = $login;
         $data['name'] = $name['0'];
@@ -72,7 +73,7 @@ if ($_POST['email'] === 'keltdeep2@yandex.ru') {
         RegisterController::create($data);
 
         return $this->from(env('MAILGUN_SMTP_LOGIN'))
-            ->view('inviteMassage', compact(['currentUser', 'login', 'password']));
+            ->view('inviteMassage', compact(['currentUser', 'login', 'password', 'server']));
 
     }
 }
