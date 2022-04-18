@@ -47,19 +47,15 @@ class OrderShipped extends Mailable
      */
     public function build()
     {
+        if ($_POST['email'] === 'keltdeep2@yandex.ru') {
+            $currentUser = User::currentUser();
+            $userLogin = $currentUser->email;
+            $userMessage = $_POST['message'];
 
-//        $request->validate([
-//            'email' => 'unique:users,email|nullable',
-//        ]);
-if ($_POST['email'] === 'keltdeep2@yandex.ru') {
+            return $this->from(env('MAILGUN_SMTP_LOGIN'))
+                ->view('techMessage', compact(['userLogin', 'userMessage']));
+        }
 
-    $currentUser = User::currentUser();
-    $userLogin = $currentUser->email;
-    $userMessage = $_POST['message'];
-
-    return $this->from(env('MAILGUN_SMTP_LOGIN'))
-        ->view('techMessage', compact(['userLogin', 'userMessage']));
-    }
         $currentUser = User::currentUser()->name;
         $login = $_POST['email'];
         $name = explode('@', $login);
@@ -74,6 +70,5 @@ if ($_POST['email'] === 'keltdeep2@yandex.ru') {
 
         return $this->from(env('MAILGUN_SMTP_LOGIN'))
             ->view('inviteMassage', compact(['currentUser', 'login', 'password', 'server']));
-
     }
 }

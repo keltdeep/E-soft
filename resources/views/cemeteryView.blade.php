@@ -12,10 +12,7 @@
             </ul>
         </nav>
         <div class="row justify-content-center">
-            {{--        <div class="col-md-12">--}}
-
             @csrf
-
 
             @foreach ($deadGladiators as $key => $value)
                 <div class="card" style="width: 240px; height: 410px">

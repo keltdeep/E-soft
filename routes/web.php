@@ -1,11 +1,9 @@
 <?php
 
-use App\Http\Controllers\GladiatorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
-//use Auth\VerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +42,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/cemetery', 'GladiatorController@cemeteryView')->name('cemeteryView');
     Route::get('/tech', 'OrderController@techView')->name('techView');
     Route::post('/tech', 'OrderController@tech')->name('tech');
-
 });
 
 

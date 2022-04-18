@@ -14,13 +14,8 @@
         <h5 class="row justify-content-center">Рабыня {{$slave['name']}}</h5>
 
         <div class="row justify-content-center">
-{{--            <div class="col-md-7">--}}
-{{--                <div class="card">--}}
-{{--                    <div class="card-header">Рабыня {{$slave['name']}}</div>--}}
 
-{{--                    <div class="card-body">--}}
-
-                        @csrf
+           @csrf
 
 
             <div class="card" style="width: 300px; height: 450px">
@@ -64,8 +59,4 @@
                         </form>
             </div>
                     </div>
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
 @endsection

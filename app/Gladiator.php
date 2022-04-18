@@ -16,78 +16,63 @@ class Gladiator extends Model
         'name', 'strength', 'agility', 'heals', 'cost', 'rate', 'image', 'master', 'created_at', 'updated_at'
     ];
 
-
-public static function getGladiator($id) {
-    return DB::table('gladiators')
-        ->where('id', $id);
-}
-
-public static function ArenaFight ($gladiator1, $gladiator2)
-{
-
-//    $dataArena['arena'] = null;
-
-
-    if (rand(0, ($gladiator1->cost + $gladiator2->cost)) > $gladiator2->cost) {
-
-
-//        вероятность смерти после поражение 70%
-        if(rand(1, 10) <= 7) {
-            $dataArena['arena'] = -1;
-        }
-        else {
-            $dataArena['arena'] = null;
-    }
-        $user = User::getUser($gladiator1->master)->first();
-
-        $dataUser['money'] = $user->money + 3;
-
-        $gladiator2->updated_at = Carbon::now();
-
-        DB::table('users')
-            ->where('id', $gladiator1->master)
-            ->update($dataUser);
-        DB::table('gladiators')
-            ->where('id', $gladiator2->id)
-            ->update($dataArena);
-
-        $gladiator2->arena = $dataArena['arena'];
-
-        DB::table('arenaInfo')->insert((array) $gladiator2);
-
-
-        return $gladiator1;
+    public static function getGladiator($id) {
+        return DB::table('gladiators')
+            ->where('id', $id);
     }
 
-    else {
+    public static function ArenaFight ($gladiator1, $gladiator2)
+    {
+        if (rand(0, ($gladiator1->cost + $gladiator2->cost)) > $gladiator2->cost) {
 
-        if(rand(1, 10) <= 7) {
-            $dataArena['arena'] = -1;
-        }
+            // вероятность смерти после поражение 70%
+            if (rand(1, 10) <= 7) {
+                $dataArena['arena'] = -1;
+            } else {
+                $dataArena['arena'] = null;
+            }
 
-        else {
-            $dataArena['arena'] = null;
-        }
-        $user = User::getUser($gladiator2->master)->first();
+            $user = User::getUser($gladiator1->master)->first();
 
             $dataUser['money'] = $user->money + 3;
+
+            $gladiator2->updated_at = Carbon::now();
+
             DB::table('users')
-                ->where('id', $gladiator2->master)
+                ->where('id', $gladiator1->master)
                 ->update($dataUser);
             DB::table('gladiators')
-                ->where('id', $gladiator1->id)
+                ->where('id', $gladiator2->id)
                 ->update($dataArena);
-        $gladiator1->updated_at = Carbon::now();
 
-        $gladiator1->arena = $dataArena['arena'];
+            $gladiator2->arena = $dataArena['arena'];
 
+            DB::table('arenaInfo')->insert((array) $gladiator2);
 
-        DB::table('arenaInfo')->insert((array) $gladiator1);
+            return $gladiator1;
+        } else {
+            if (rand(1, 10) <= 7) {
+                $dataArena['arena'] = -1;
+            } else {
+                $dataArena['arena'] = null;
+            }
 
-        return $gladiator2;
+            $user = User::getUser($gladiator2->master)->first();
+                $dataUser['money'] = $user->money + 3;
+                DB::table('users')
+                    ->where('id', $gladiator2->master)
+                    ->update($dataUser);
+                DB::table('gladiators')
+                    ->where('id', $gladiator1->id)
+                    ->update($dataArena);
 
+            $gladiator1->updated_at = Carbon::now();
+
+            $gladiator1->arena = $dataArena['arena'];
+
+            DB::table('arenaInfo')->insert((array) $gladiator1);
+
+            return $gladiator2;
+        }
     }
-    }
-
-
 }

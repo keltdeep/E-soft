@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CustomException;
-use App\Image;
 use App\Slave;
 use App\User;
 use Illuminate\Http\Request;
@@ -14,10 +13,8 @@ use JD\Cloudder\Facades\Cloudder;
 
 class SlaveController extends Controller
 {
-
     public function slaveList()
     {
-
         $value = Session::all();
         $idSession = $value['login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d'];
 
@@ -25,12 +22,12 @@ class SlaveController extends Controller
             ->where('master', '=', $idSession)
             ->orderBy('name')
             ->simplePaginate(3);
+
         return View::make('mySlaves', ['slaves' => $slaves]);
     }
 
     public function edit($id)
     {
-
         if ($_SERVER["REQUEST_URI"] === "/slave/$id/edit") {
 
             $slave = Slave::getSlave($id)->first();
@@ -45,6 +42,7 @@ class SlaveController extends Controller
 
             return view('slaveEdit', compact('slave'));
         }
+
         return null;
     }
 
@@ -55,13 +53,12 @@ class SlaveController extends Controller
         if ($user->administration === true) {
             return view('createSlave');
         }
-        return null;
 
+        return null;
     }
 
     public function index()
     {
-
         $slaves = DB::table('slaves')
             ->where('master', '=', NULL)
             ->orWhereNotNull('seller')
@@ -69,22 +66,16 @@ class SlaveController extends Controller
             ->simplePaginate(3);
 
         return View::make('slaves', ['slaves' => $slaves]);
-
     }
 
     public function store(Request $request)
     {
-
         $request->validate([
             'name' => 'string|unique:slaves',
             'agility' => 'numeric|between:1,10',
             'intelligence' => 'numeric|between:1,10',
             'image' => 'image'
         ]);
-
-//        $serverName = $_SERVER["HTTP_HOST"];
-//        $documentRoot = $_SERVER["DOCUMENT_ROOT"];
-//        $uploadFolder = $documentRoot . '/uploads';
 
         $k = 1.8;
 
@@ -96,18 +87,10 @@ class SlaveController extends Controller
         $slave['dailyExpenses'] = $slave['rateComfort'] / 15;
 
         if (!$_FILES["image"]["error"] == UPLOAD_ERR_NO_FILE) {
-
             Cloudder::upload($request->file('image'));
             $cloundary_upload = Cloudder::getResult();
             $slave["image"] = $cloundary_upload['url'];;
-//            $folder = $uploadFolder;
-//            $file_path = Image::upload_image($_FILES["image"], $folder);
-//            $file_path_exploded = explode("/", $file_path);
-//            $filename = $file_path_exploded[count($file_path_exploded) - 1];
-////            $file_url = "//$serverName/uploads/" . $filename;
-//            $slave["image"] = "/uploads/" . $filename;
         }
-
 
         DB::table('slaves')
             ->insert($slave);
@@ -122,32 +105,26 @@ class SlaveController extends Controller
 
                 view('slaveView', ['slave' => $value]);
                 return redirect()->route('slave.show', [$id]);
-
             }
         }
 
         return null;
     }
 
-
     public function show($id)
     {
-
         $slave = Slave::query()->findOrFail($id);
         $user = User::currentUser();
 
         return view('slaveView', compact(['slave', 'user']));
     }
 
-
     public function update(Request $request, $id)
     {
-
         $request->validate([
             'agility' => 'numeric|between:0,1',
             'intelligence' => 'numeric|between:0,1',
         ]);
-
 
         if ($_SERVER["REQUEST_URI"] === "/slave/$id/edit") {
 
@@ -163,38 +140,32 @@ class SlaveController extends Controller
         $user = User::currentUser();
         $dataCost = 0;
         $data = array();
+
         try {
             if ($_POST['agility'] + $slave->agility > 10
                 || $_POST['intelligence'] + $slave->intelligence > 10) {
 
                 throw new CustomException('Атрибуты не могут быть больше 10');
-
-            }
-            else {
-
+            } else {
                 if ($_POST['agility'] != 0 ) {
                     $dataCost = $dataCost + $_POST['costAgility'];
-
                 }
+
                 if ($_POST['intelligence'] != 0 ) {
                     $dataCost = $dataCost + $_POST['costIntelligence'];
                 }
 
-
-                if(User::checkMoney($dataCost) === false) {
-
+                if (User::checkMoney($dataCost) === false) {
                     throw new CustomException('Недостаточно денег для совершения операции');
                 }
             }
         } catch (CustomException $exception) {
             return view('errors.money', compact('exception'));
-
         }
 
         $data['agility'] = User::updateAttributes($data, $_POST['agility'], $_POST['costAgility'], $slave->agility, $user);
 
         $data['intelligence'] = User::updateAttributes($data, $_POST['intelligence'], $_POST['costIntelligence'], $slave->intelligence, $user);
-
 
         $k = 1.8;
 
@@ -203,7 +174,6 @@ class SlaveController extends Controller
         $data['dailyExpenses'] = $data['rateComfort'] / 15;
 
         Slave::getSlave($id)->update($data);
-
 
         return redirect()->route('slave.show', [$id]);
     }
@@ -216,36 +186,32 @@ class SlaveController extends Controller
         $user = User::getUser($idSession)->first();
         $slave = Slave::getSlave($id)->first();
 
-        if($slave->seller === $slave->master && $slave->master !== null) {
+        if ($slave->seller === $slave->master && $slave->master !== null) {
             $data['master'] = $idSession;
             $data['seller'] = null;
             Slave::getSlave($id)->update($data);
 
             return redirect()->route('slave.show', [$slave->id]);
         }
-try {
-    if ($user->money >= $slave->cost) {
 
-        $data['master'] = $idSession;
+        try {
+            if ($user->money >= $slave->cost) {
 
-        Slave::getSlave($id)->update($data);
+                $data['master'] = $idSession;
 
-        $dataChange['money'] = $user->money - $slave->cost;
+                Slave::getSlave($id)->update($data);
 
-        User::getUser($idSession)->update($dataChange);
-    } else {
+                $dataChange['money'] = $user->money - $slave->cost;
 
-        throw new CustomException('Недостаточно денег для совершения операции');
-
-    }
-}
-    catch (CustomException $exception) {
-
-        return view('errors.money', compact('exception'));
-    }
+                User::getUser($idSession)->update($dataChange);
+            } else {
+                throw new CustomException('Недостаточно денег для совершения операции');
+            }
+        } catch (CustomException $exception) {
+            return view('errors.money', compact('exception'));
+        }
 
         if ($slave->seller !== null) {
-
             $user = User::getUser($slave->seller)->first();
 
             $changeMoneySeller['money'] = $user->money + $slave->cost;
@@ -255,16 +221,13 @@ try {
             $changeSlave['seller'] = null;
 
             Slave::getSlave($id)->update($changeSlave);
-
         }
 
         return redirect()->route('slave.show', [$id]);
-
     }
 
     public function sell($id)
     {
-
         $user = User::currentUser();
 
         $data['seller'] = $user->id;
@@ -273,5 +236,4 @@ try {
 
         return redirect()->route('slave.index');
     }
-
 }

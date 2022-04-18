@@ -45,11 +45,8 @@
                     </ul>
                 </nav>
                 <div class="row justify-content-center">
-                    {{--                    <div class="col-md-12">--}}
 
                     @csrf
-
-
 
                     @foreach ($users as $key => $value)
                         <div class="card" style="width: 240px; height: 410px">
@@ -95,16 +92,6 @@
                                             </div>
                                         @endif
 
-                                        {{--                                    <label class="form-check-label" for="exampleCheck1"></label>--}}
-                                        {{--                                    <input id="exampleCheck1"--}}
-                                        {{--                                           class="form-check-input"--}}
-                                        {{--                                           type="checkbox"--}}
-                                        {{--                                           name="administration"--}}
-                                        {{--                                           @if($value->administration)--}}
-                                        {{--                                           checked--}}
-                                        {{--                                    @endif--}}
-                                        {{--                                    >--}}
-
                                     </div>
                                 </form>
                             @endif
@@ -113,7 +100,5 @@
                     @endforeach
                 </div>
             </div>
-        {{--    </div>--}}
-
 @endsection
 

@@ -2,12 +2,10 @@
 
 
 @section('content')
-{{--    <div></div>--}}
     <div class="container">
         <h5 class="row justify-content-center">Результаты последней Арены</h5>
 
         <div class="row justify-content-center">
-            {{--        <div class="col-md-12">--}}
 
             @csrf
 

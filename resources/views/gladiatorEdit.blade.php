@@ -15,14 +15,8 @@
             <h5 class="row justify-content-center">Гладиатор {{$gladiator['name']}}</h5>
 
             <div class="row justify-content-center">
-            {{--            <div class="col-md-7">--}}
-            {{--                <div class="card">--}}
-            {{--                    <div class="card-header">Гладиатор {{$gladiator['name']}}</div>--}}
-
-            {{--                    <div class="card-body">--}}
 
             @csrf
-
 
             <div class="card" style="width: 300px; height: 550px">
                 @if(isset($gladiator['image']))
@@ -68,8 +62,6 @@
                     <div>Стоимость Здоровья {{round($gladiator['costHeals'], 2)}}</div>
                     <input id="costHeals" type="hidden" name="costHeals" class="form-control"
                            value="{{round($gladiator['costHeals'], 2)}}">
-                    {{--                            <div>thePossibilityOfDeath={{round($gladiator['thePossibilityOfDeath'], 2)}}</div>--}}
-                    {{--                            <input id="thePossibilityOfDeath" type="hidden" name="thePossibilityOfDeath" class="form-control" value="{{round($gladiator['thePossibilityOfDeath'], 2)}}">--}}
 
                     <div>Дневной Доход {{round($gladiator['rate'], 2)}}</div>
 
@@ -79,10 +71,6 @@
                 </div>
             </form>
             </div>
-            {{--                    </div>--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
-            {{--        </div>--}}
         </div>
     </div>
 @endsection

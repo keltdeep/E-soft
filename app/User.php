@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Exceptions\CustomException;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,8 +11,6 @@ use Illuminate\Support\Facades\Session;
 class User extends Authenticatable
 {
     use Notifiable;
-
-//    public $money, $rate;
 
     /**
      * The attributes that are mass assignable.
@@ -53,49 +50,34 @@ class User extends Authenticatable
     public static function getUser($id) {
         return DB::table('users')
             ->where('id', $id);
-
     }
 
     public static function checkMoney($attribute) {
-
        $user = self::currentUser();
 
        if ($user->money >= $attribute) {
-
            return $user;
-       }
-        else {
+       } else {
             return false;
-        }
-
+       }
     }
-
 
     public static function updateAttributes($data, $attribute, $attributeCost, $entityAttribute, $user)
     {
-            if ($attribute != 0) {
+        if ($attribute != 0) {
+            $data = $attribute + $entityAttribute;
 
-                $data = $attribute + $entityAttribute;
+            $user->money = $user->money - $attributeCost;
+            $user = (array)$user;
 
+            User::getUser($user['id'])->update($user);
 
-                $user->money = $user->money - $attributeCost;
-                $user = (array)$user;
-
-                User::getUser($user['id'])->update($user);
-                return $data;
-            }
-
-
-        else if ($attribute == 0) {
-                $data = $entityAttribute;
-
-                return $data;
-            }
-            else {
-                return $data;
-            }
-
+            return $data;
+        } else if ($attribute == 0) {
+            $data = $entityAttribute;
+            return $data;
+        } else {
+            return $data;
+        }
     }
-
-
 }
